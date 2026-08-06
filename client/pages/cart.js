@@ -79,34 +79,13 @@ function renderCartPageBody() {
     const msgEl = document.getElementById('cart-coupon-msg');
     if (!code) { msgEl.textContent = 'Enter a coupon code.'; msgEl.style.color = 'var(--color-error)'; return; }
 
-    if (typeof validateCartCoupon === 'function') {
-      const res = await validateCartCoupon(code);
-      if (res.success) {
-        msgEl.textContent = `Coupon applied! You saved ${formatMoney(res.discount)}.`;
-        msgEl.style.color = 'var(--color-success)';
-      } else {
-        msgEl.textContent = res.message || 'Invalid coupon.';
-        msgEl.style.color = 'var(--color-error)';
-      }
+    const res = await validateCartCoupon(code);
+    if (res.success) {
+      msgEl.textContent = `Coupon applied! You saved ${formatMoney(res.discount)}.`;
+      msgEl.style.color = 'var(--color-success)';
     } else {
-      const subtotal2 = getCartSubtotal();
-      const res = await api.post('/coupons/validate', { code, orderTotal: subtotal2, type: 'order' });
-      if (res.success) {
-        applyCheckoutCoupon(code, res.data.discount || 0);
-        msgEl.textContent = 'Coupon applied!';
-        msgEl.style.color = 'var(--color-success)';
-      } else {
-        const coupon = (typeof MOCK_COUPONS !== 'undefined' ? MOCK_COUPONS : []).find(c => c.code === code && c.isActive);
-        if (coupon && (!coupon.minSpend || subtotal2 >= coupon.minSpend)) {
-          const discount = coupon.type === 'percent' ? Math.round(subtotal2 * coupon.value / 100) : coupon.value;
-          applyCheckoutCoupon(code, discount);
-          msgEl.textContent = 'Coupon applied! (offline mode)';
-          msgEl.style.color = 'var(--color-success)';
-        } else {
-          msgEl.textContent = res.message || 'Invalid or inapplicable coupon.';
-          msgEl.style.color = 'var(--color-error)';
-        }
-      }
+      msgEl.textContent = res.message || 'Invalid coupon.';
+      msgEl.style.color = 'var(--color-error)';
     }
     renderCartPageBody();
   });

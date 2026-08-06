@@ -4,7 +4,7 @@ function renderHome() {
     .slice().sort((a, b) => (b.bookingCount || 0) - (a.bookingCount || 0)).slice(0, 6);
   const staff = (STATE.staff.length ? STATE.staff : MOCK_STAFF).slice(0, 4);
   const products = (STATE.products.length ? STATE.products : MOCK_PRODUCTS).filter(p => p.featured).slice(0, 4);
-  const reviews = MOCK_REVIEWS.slice(0, 3);
+  const reviews = (STATE.reviews.length ? STATE.reviews : MOCK_REVIEWS).slice(0, 3);
 
   root.innerHTML = `
     <section class="page-section hero">

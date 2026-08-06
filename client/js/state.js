@@ -16,7 +16,7 @@ const STATE = {
   checkout: { step: 1, shippingAddress: null, shippingMethod: 'standard', couponCode: null },
   ui: { cartDrawerOpen: false, menuDrawerOpen: false, modalContent: null, theme: 'light', isLoading: false },
   admin: { activeModule: 'dashboard', calendarView: 'week', dateRange: { from: null, to: null }, appointmentFilter: 'all' },
-  services: [], staff: [], products: [],
+  services: [], staff: [], products: [], reviews: [],
   lastBookingNumber: null, lastOrderNumber: null
 };
 
@@ -237,6 +237,7 @@ function setLoading(bool) {
 function setServices(arr) { STATE.services = arr || []; }
 function setStaffList(arr) { STATE.staff = arr || []; }
 function setProducts(arr) { STATE.products = arr || []; }
+function setReviews(arr) { STATE.reviews = arr || []; }
 
 /* ---------------- Persistence ---------------- */
 function persistState() {

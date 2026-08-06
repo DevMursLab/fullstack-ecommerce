@@ -21,7 +21,8 @@ async function renderProduct(id) {
   let activeVariant = 0;
   let qty = 1;
 
-  const reviews = (typeof MOCK_REVIEWS !== 'undefined' ? MOCK_REVIEWS : []).filter(r => r.type === 'product' && r.referenceId === id);
+  const reviews = (STATE.reviews.length ? STATE.reviews : (typeof MOCK_REVIEWS !== 'undefined' ? MOCK_REVIEWS : []))
+    .filter(r => r.type === 'product' && r.referenceId === id);
   const related = allProducts.filter(x => x.category === p.category && x._id !== p._id).slice(0, 4);
 
   root.innerHTML = `

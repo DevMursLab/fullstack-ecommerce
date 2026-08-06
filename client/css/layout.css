@@ -127,13 +127,21 @@
 .slot-btn:disabled { opacity: .35; cursor: not-allowed; text-decoration: line-through; }
 
 /* Hero */
-.hero { padding: var(--space-16) 0; overflow: hidden; }
+.hero { padding: var(--space-16) 0; overflow: hidden; background: var(--gradient-hero); border-radius: 0 0 var(--radius-xl) var(--radius-xl); }
 .hero-inner { display: grid; grid-template-columns: 1fr 1fr; gap: var(--space-10); align-items: center; }
 @media (max-width: 1023px) { .hero-inner { grid-template-columns: 1fr; } }
-.hero-copy .eyebrow { color: var(--color-accent); font-weight: 700; letter-spacing: .1em; text-transform: uppercase; font-size: .8rem; }
-.hero-stats > div strong { font-family: var(--font-serif); font-size: 1.6rem; display: block; }
+.hero-copy .eyebrow { color: var(--color-rose-dark); font-weight: 700; letter-spacing: .1em; text-transform: uppercase; font-size: .8rem; }
+.hero-stats > div strong { font-family: var(--font-serif); font-size: 1.6rem; display: block; background: var(--gradient-accent); -webkit-background-clip: text; background-clip: text; color: transparent; }
 .hero-stats > div p { font-size: .8rem; }
-.hero-media img, .hero-media { width: 100%; aspect-ratio: 4/3; border-radius: var(--radius-xl); object-fit: cover; background: linear-gradient(135deg, var(--color-accent-light), var(--color-border)); }
+.hero-media img, .hero-media { width: 100%; aspect-ratio: 4/3; border-radius: var(--radius-xl); object-fit: cover; background: var(--gradient-accent); box-shadow: var(--shadow-lg); }
+
+/* Category tags — cycle through accent colors for visual variety */
+.category-tag { display: inline-flex; align-items: center; padding: 4px 12px; border-radius: var(--radius-full); font-size: var(--fs-xs, .75rem); font-weight: 700; }
+.category-tag[data-cat="Hair"], .category-tag[data-cat="hair"] { background: var(--color-accent-light); color: var(--color-accent-dark); }
+.category-tag[data-cat="Skin"], .category-tag[data-cat="skin"] { background: var(--color-rose-light); color: var(--color-rose-dark); }
+.category-tag[data-cat="Nails"], .category-tag[data-cat="nails"] { background: var(--color-plum-light); color: var(--color-plum); }
+.category-tag[data-cat="Massage"], .category-tag[data-cat="massage"] { background: var(--color-teal-light); color: var(--color-teal); }
+.category-tag[data-cat="Package"], .category-tag[data-cat="package"] { background: var(--color-coral-light); color: var(--color-coral); }
 
 /* Gallery */
 .gallery-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: var(--space-3); }

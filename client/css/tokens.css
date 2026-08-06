@@ -14,11 +14,24 @@
   --color-border: #e7ded3;
   --color-border-strong: #d8cbb8;
 
-  --color-accent: #b8894f;        /* gold */
-  --color-accent-dark: #96703c;
-  --color-accent-light: #e7cfa4;
-  --color-rose: #c98a8a;          /* rose secondary accent */
-  --color-rose-dark: #a86868;
+  --color-accent: #c8863f;        /* gold */
+  --color-accent-dark: #9c661f;
+  --color-accent-light: #f3d9ab;
+  --color-rose: #d9738a;          /* rose secondary accent */
+  --color-rose-dark: #b2496a;
+  --color-rose-light: #f6d4dd;
+
+  /* Extra accents — used sparingly for category tags, gradients, highlights */
+  --color-plum: #8a5fb0;
+  --color-plum-light: #e6dbf3;
+  --color-teal: #2f9e8f;
+  --color-teal-light: #d6f0ec;
+  --color-coral: #e8734a;
+  --color-coral-light: #fbe0d4;
+
+  --gradient-hero: linear-gradient(120deg, #f3d9ab 0%, #f6d4dd 45%, #e6dbf3 100%);
+  --gradient-accent: linear-gradient(135deg, var(--color-accent) 0%, var(--color-rose) 100%);
+  --gradient-dark: linear-gradient(135deg, #2a2320 0%, #4a2f36 100%);
 
   --color-success: #4c8b5f;
   --color-success-bg: #e6f2e9;
@@ -107,5 +120,12 @@
     --color-border: #3a332d;
     --color-border-strong: #4a4038;
     --color-text-inverse: #201c1a;
+
+    --color-plum-light: #3a2f47;
+    --color-teal-light: #1f3a35;
+    --color-coral-light: #3f2a20;
+    --color-rose-light: #3f2530;
+
+    --gradient-hero: var(--gradient-dark);
   }
 }

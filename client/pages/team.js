@@ -31,7 +31,8 @@ function renderStaffProfile(params) {
     return;
   }
 
-  const reviews = MOCK_REVIEWS.filter(r => r.type === 'staff' && r.referenceId === person._id);
+  const reviews = (STATE.reviews.length ? STATE.reviews : MOCK_REVIEWS)
+    .filter(r => r.type === 'staff' && r.referenceId === person._id);
 
   root.innerHTML = `
     <section class="page-section">

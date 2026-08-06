@@ -46,13 +46,15 @@ const api = {
 };
 
 async function preloadData() {
-  const [svcRes, staffRes, prodRes] = await Promise.all([
+  const [svcRes, staffRes, prodRes, reviewRes] = await Promise.all([
     api.get('/services'),
     api.get('/staff'),
-    api.get('/products')
+    api.get('/products'),
+    api.get('/reviews')
   ]);
 
   setServices(svcRes && svcRes.success ? svcRes.services : (typeof MOCK_SERVICES !== 'undefined' ? MOCK_SERVICES : []));
   setStaffList(staffRes && staffRes.success ? staffRes.staff : (typeof MOCK_STAFF !== 'undefined' ? MOCK_STAFF : []));
   setProducts(prodRes && prodRes.success ? prodRes.products : (typeof MOCK_PRODUCTS !== 'undefined' ? MOCK_PRODUCTS : []));
+  setReviews(reviewRes && reviewRes.success ? reviewRes.reviews : (typeof MOCK_REVIEWS !== 'undefined' ? MOCK_REVIEWS : []));
 }

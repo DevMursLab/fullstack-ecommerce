@@ -235,7 +235,7 @@ function setLoading(bool) {
 
 /* ---------------- Data cache ---------------- */
 function setServices(arr) { STATE.services = arr || []; }
-function setStaff(arr) { STATE.staff = arr || []; }
+function setStaffList(arr) { STATE.staff = arr || []; }
 function setProducts(arr) { STATE.products = arr || []; }
 
 /* ---------------- Persistence ---------------- */

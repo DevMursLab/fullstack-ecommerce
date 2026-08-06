@@ -53,6 +53,6 @@ async function preloadData() {
   ]);
 
   setServices(svcRes && svcRes.success ? svcRes.services : (typeof MOCK_SERVICES !== 'undefined' ? MOCK_SERVICES : []));
-  setStaff(staffRes && staffRes.success ? staffRes.staff : (typeof MOCK_STAFF !== 'undefined' ? MOCK_STAFF : []));
+  setStaffList(staffRes && staffRes.success ? staffRes.staff : (typeof MOCK_STAFF !== 'undefined' ? MOCK_STAFF : []));
   setProducts(prodRes && prodRes.success ? prodRes.products : (typeof MOCK_PRODUCTS !== 'undefined' ? MOCK_PRODUCTS : []));
 }

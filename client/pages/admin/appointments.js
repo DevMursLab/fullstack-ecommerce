@@ -1,10 +1,17 @@
-// Admin appointments: filterable list/table with status updates. Calendar view is a placeholder.
+// Admin appointments: filterable list/table with status updates, plus a read-only month calendar view.
 
 const ADMIN_APPT_STATUSES = ['pending', 'confirmed', 'completed', 'cancelled', 'no_show'];
+const ADMIN_APPT_MONTH_NAMES = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
 
 async function renderAdminAppointments() {
   const root = document.getElementById('page-root') || document.getElementById('app');
   if (!root) return;
+
+  let viewMode = 'list';
+  const now = new Date();
+  let calYear = now.getFullYear();
+  let calMonth = now.getMonth();
+  let allAppointments = [];
 
   root.innerHTML = `
     <div class="admin-shell">
@@ -32,29 +39,24 @@ async function renderAdminAppointments() {
 
   qs('#appt-filter-btn', root).addEventListener('click', () => loadAppointments());
   qs('#appt-view-toggle', root).addEventListener('click', () => {
-    showToast('Calendar/week view is a placeholder in this build — list view below is fully functional.', 'info');
+    viewMode = viewMode === 'list' ? 'calendar' : 'list';
+    qs('#appt-view-toggle', root).textContent = viewMode === 'list' ? 'Calendar View' : 'List View';
+    render();
   });
 
-  async function loadAppointments() {
-    const wrap = qs('#appt-list-wrap', root);
-    wrap.innerHTML = '<p>Loading appointments…</p>';
-    const status = qs('#appt-status-filter', root).value;
-    const dateFrom = qs('#appt-date-from', root).value;
-    const dateTo = qs('#appt-date-to', root).value;
-    let qsParams = [];
-    if (status) qsParams.push('status=' + status);
-    if (dateFrom) qsParams.push('dateFrom=' + dateFrom);
-    if (dateTo) qsParams.push('dateTo=' + dateTo);
-    const data = await api.get('/appointments' + (qsParams.length ? '?' + qsParams.join('&') : ''));
-    if (!data || !data.success) { wrap.innerHTML = '<p>Could not load appointments.</p>'; return; }
+  function render() {
+    if (viewMode === 'calendar') renderCalendarView();
+    else renderListView();
+  }
 
-    const appointments = data.appointments;
+  function renderListView() {
+    const wrap = qs('#appt-list-wrap', root);
     wrap.innerHTML = `
       <div class="admin-table-wrap">
         <table class="admin-table">
           <thead><tr><th>Booking #</th><th>Customer</th><th>Services</th><th>Date/Time</th><th>Staff</th><th>Total</th><th>Status</th><th></th></tr></thead>
           <tbody>
-            ${appointments.map(a => `
+            ${allAppointments.map(a => `
               <tr data-id="${a._id}">
                 <td>${a.bookingNumber}</td>
                 <td>${a.customerId ? a.customerId.name : (a.guestInfo ? a.guestInfo.name : 'Guest')}</td>
@@ -80,6 +82,76 @@ async function renderAdminAppointments() {
       if (res && res.success) showToast('Status updated', 'success');
       else showToast((res && res.message) || 'Could not update status', 'error');
     }));
+  }
+
+  function renderCalendarView() {
+    const wrap = qs('#appt-list-wrap', root);
+    const days = generateCalendarDays(calYear, calMonth);
+
+    const apptsByDate = {};
+    allAppointments.forEach(a => {
+      const dateStr = (a.date || '').slice(0, 10);
+      if (!dateStr) return;
+      if (!apptsByDate[dateStr]) apptsByDate[dateStr] = [];
+      apptsByDate[dateStr].push(a);
+    });
+
+    const dow = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
+    const maxPerCell = 3;
+
+    wrap.innerHTML = `
+      <div class="admin-calendar-nav">
+        <button class="btn btn-outline btn-sm" id="cal-prev">‹ Prev</button>
+        <h3>${ADMIN_APPT_MONTH_NAMES[calMonth]} ${calYear}</h3>
+        <button class="btn btn-outline btn-sm" id="cal-next">Next ›</button>
+        <button class="btn btn-outline btn-sm" id="cal-today">Today</button>
+      </div>
+      <div class="admin-calendar-grid">
+        ${dow.map(d => `<div class="admin-calendar-dow">${d}</div>`).join('')}
+        ${days.map(d => {
+          const dayAppts = apptsByDate[d.dateStr] || [];
+          const shown = dayAppts.slice(0, maxPerCell);
+          const extra = dayAppts.length - shown.length;
+          return `
+            <div class="admin-calendar-cell${d.isCurrentMonth ? '' : ' is-outside'}${d.isToday ? ' is-today' : ''}">
+              <div class="admin-calendar-date">${d.date}</div>
+              ${shown.map(a => `<div class="admin-calendar-appt status-${a.status}" title="${(a.services || []).map(s => s.name).join(', ')} — ${a.customerId ? a.customerId.name : (a.guestInfo ? a.guestInfo.name : 'Guest')}">${formatTime12h(a.startTime)} ${a.customerId ? a.customerId.name : (a.guestInfo ? a.guestInfo.name : 'Guest')}</div>`).join('')}
+              ${extra > 0 ? `<div class="admin-calendar-more">+${extra} more</div>` : ''}
+            </div>
+          `;
+        }).join('')}
+      </div>
+    `;
+
+    qs('#cal-prev', wrap).addEventListener('click', () => {
+      calMonth--; if (calMonth < 0) { calMonth = 11; calYear--; }
+      renderCalendarView();
+    });
+    qs('#cal-next', wrap).addEventListener('click', () => {
+      calMonth++; if (calMonth > 11) { calMonth = 0; calYear++; }
+      renderCalendarView();
+    });
+    qs('#cal-today', wrap).addEventListener('click', () => {
+      calYear = now.getFullYear(); calMonth = now.getMonth();
+      renderCalendarView();
+    });
+  }
+
+  async function loadAppointments() {
+    const wrap = qs('#appt-list-wrap', root);
+    wrap.innerHTML = '<p>Loading appointments…</p>';
+    const status = qs('#appt-status-filter', root).value;
+    const dateFrom = qs('#appt-date-from', root).value;
+    const dateTo = qs('#appt-date-to', root).value;
+    let qsParams = [];
+    if (status) qsParams.push('status=' + status);
+    if (dateFrom) qsParams.push('dateFrom=' + dateFrom);
+    if (dateTo) qsParams.push('dateTo=' + dateTo);
+    const data = await api.get('/appointments' + (qsParams.length ? '?' + qsParams.join('&') : ''));
+    if (!data || !data.success) { wrap.innerHTML = '<p>Could not load appointments.</p>'; return; }
+
+    allAppointments = data.appointments || [];
+    render();
   }
 
   loadAppointments();

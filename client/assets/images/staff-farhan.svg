@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="480" height="480" viewBox="0 0 480 480">
+  <defs>
+    <linearGradient id="gvjey32" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#dce8f0"/>
+      <stop offset="100%" stop-color="#b7cfe0"/>
+    </linearGradient>
+  </defs>
+  <rect width="480" height="480" fill="#dce8f0"/>
+  <rect width="480" height="480" fill="url(#gvjey32)" opacity="0.6"/>
+  <circle cx="240" cy="240" r="153.6" fill="#ffffff" opacity="0.85"/>
+  <text x="240" y="289.152" text-anchor="middle" font-family="Georgia, 'Playfair Display', serif" font-size="130.56" fill="#3a2e28" font-weight="700">FC</text>
+  <text x="50%" y="454" text-anchor="middle" font-family="Inter, sans-serif" font-size="18" fill="#3a2e28" font-weight="600">Farhan Chowdhury</text>
+</svg>

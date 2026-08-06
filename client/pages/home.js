@@ -8,12 +8,17 @@ function renderHome() {
 
   root.innerHTML = `
     <section class="page-section hero">
-      <div class="eyebrow">Welcome to ${CONFIG.APP_NAME}</div>
-      <h1>Look and feel your best, every day</h1>
-      <p>Premium salon &amp; spa services and curated beauty products, delivered with care.</p>
-      <div class="header-actions">
-        <a href="#/book" class="btn btn-primary btn-lg">Book Now</a>
-        <a href="#/shop" class="btn btn-outline btn-lg">Shop Products</a>
+      <div class="hero-inner">
+        <div class="hero-copy">
+          <div class="eyebrow">Welcome to ${CONFIG.APP_NAME}</div>
+          <h1>Look and feel your best, every day</h1>
+          <p>Premium salon &amp; spa services and curated beauty products, delivered with care.</p>
+          <div class="header-actions">
+            <a href="#/book" class="btn btn-primary btn-lg">Book Now</a>
+            <a href="#/shop" class="btn btn-outline btn-lg">Shop Products</a>
+          </div>
+        </div>
+        <div class="hero-media"><img src="assets/images/hero-main.svg" alt="Lumière Salon & Spa" onerror="this.style.opacity=0"></div>
       </div>
     </section>
 

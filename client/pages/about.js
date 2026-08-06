@@ -17,7 +17,7 @@ async function renderAbout() {
             <p class="mt-4">Whether you're here for a quick trim or a full bridal transformation, our team is dedicated to making you look and feel your absolute best.</p>
           </div>
           <div class="card-media" style="aspect-ratio:4/3;border-radius:var(--radius-lg);">
-            <img src="assets/images/about-salon.jpg" alt="About Lumière" onerror="this.style.background='linear-gradient(135deg,var(--color-accent-light),var(--color-border))';this.removeAttribute('src')">
+            <img src="assets/images/about-salon.svg" alt="About Lumière" onerror="this.style.background='linear-gradient(135deg,var(--color-accent-light),var(--color-border))';this.removeAttribute('src')">
           </div>
         </div>
       </div>

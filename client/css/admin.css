@@ -48,6 +48,23 @@
 .row-actions { display: flex; gap: var(--space-2); }
 .row-actions button { font-size: .8rem; }
 
+/* Appointments calendar */
+.admin-calendar-nav { display: flex; align-items: center; gap: var(--space-3); margin-bottom: var(--space-4); }
+.admin-calendar-nav h3 { font-family: var(--font-serif); font-size: 1.2rem; margin: 0; min-width: 160px; text-align: center; }
+.admin-calendar-grid { display: grid; grid-template-columns: repeat(7, 1fr); gap: 1px; background: var(--color-border); border: 1px solid var(--color-border); border-radius: var(--radius-lg); overflow: hidden; }
+.admin-calendar-dow { background: var(--color-bg); padding: var(--space-2) var(--space-3); font-size: .72rem; font-weight: 700; text-transform: uppercase; letter-spacing: .04em; color: var(--color-text-muted); text-align: center; }
+.admin-calendar-cell { background: var(--color-surface); min-height: 110px; padding: var(--space-2); display: flex; flex-direction: column; gap: 4px; }
+.admin-calendar-cell.is-outside { background: var(--color-bg); opacity: .5; }
+.admin-calendar-cell.is-today { box-shadow: inset 0 0 0 2px var(--color-accent); }
+.admin-calendar-date { font-size: .78rem; font-weight: 700; color: var(--color-text-muted); }
+.admin-calendar-appt { font-size: .72rem; padding: 2px 6px; border-radius: var(--radius-sm); background: var(--color-accent-light); color: var(--color-text); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; cursor: default; }
+.admin-calendar-appt.status-confirmed { background: var(--color-accent-light); }
+.admin-calendar-appt.status-pending { background: #fdf1d6; }
+.admin-calendar-appt.status-completed { background: #dcece0; }
+.admin-calendar-appt.status-cancelled,
+.admin-calendar-appt.status-no_show { background: #f4dcdc; text-decoration: line-through; opacity: .8; }
+.admin-calendar-more { font-size: .7rem; color: var(--color-text-muted); }
+
 /* Admin toolbar */
 .admin-toolbar { display: flex; align-items: center; justify-content: space-between; gap: var(--space-3); margin-bottom: var(--space-4); flex-wrap: wrap; }
 .admin-toolbar .filters { display: flex; gap: var(--space-2); flex-wrap: wrap; }

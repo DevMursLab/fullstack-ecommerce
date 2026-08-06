@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="480" height="480" viewBox="0 0 480 480">
+  <defs>
+    <linearGradient id="gh9fsia" x1="0%" y1="100%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#f4e0e6"/>
+      <stop offset="100%" stop-color="#e2b4c4"/>
+    </linearGradient>
+  </defs>
+  <rect width="480" height="480" fill="url(#gh9fsia)"/>
+  <rect x="172.79999999999998" y="86.39999999999999" width="134.4" height="230.39999999999998" rx="14" fill="#ffffff" opacity="0.55"/>
+  <rect x="201.6" y="57.599999999999994" width="76.8" height="48" rx="6" fill="#ffffff" opacity="0.7"/>
+  <text x="50%" y="232.2" text-anchor="middle" font-family="Inter, sans-serif" font-size="22" fill="#3a2e28" font-weight="600">Argan Oil</text>
+    <text x="50%" y="258.2" text-anchor="middle" font-family="Inter, sans-serif" font-size="22" fill="#3a2e28" font-weight="600">Shampoo</text>
+</svg>

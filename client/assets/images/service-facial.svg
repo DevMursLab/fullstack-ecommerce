@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="640" height="480" viewBox="0 0 640 480">
+  <defs>
+    <linearGradient id="gl54o4c" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#f8e0d0"/>
+      <stop offset="100%" stop-color="#eab998"/>
+    </linearGradient>
+  </defs>
+  <rect width="640" height="480" fill="url(#gl54o4c)"/>
+  <circle cx="544" cy="72" r="134.4" fill="#ffffff" opacity="0.12"/>
+  <circle cx="64" cy="432" r="105.6" fill="#ffffff" opacity="0.10"/>
+  <text x="50%" y="246" text-anchor="middle" font-family="Georgia, 'Playfair Display', serif" font-size="28" fill="#3a2e28" font-weight="600">Facial Cleanup</text>
+  <text x="50%" y="456" text-anchor="middle" font-family="Inter, sans-serif" font-size="13" letter-spacing="2" fill="#3a2e28" opacity="0.55">LUMIÈRE SALON &amp; SPA</text>
+</svg>

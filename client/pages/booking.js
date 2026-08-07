@@ -332,6 +332,18 @@ function renderStep4() {
   const info = STATE.booking.customerInfo;
   const prefill = STATE.isLoggedIn && STATE.user ? STATE.user : null;
 
+  // If a logged-in user's profile fills in fields the customer hasn't touched yet,
+  // sync that into booking state now — the browser sets the input's `value` attribute
+  // without firing an `input` event, so without this the fields look filled on screen
+  // but STATE.booking.customerInfo stays empty and the "Next" validation below fails.
+  if (prefill) {
+    setCustomerInfo({
+      name: info.name || prefill.name || '',
+      email: info.email || prefill.email || '',
+      phone: info.phone || prefill.phone || ''
+    });
+  }
+
   el.innerHTML = `
     <h2>Your Information</h2>
     <div class="form-group">

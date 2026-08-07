@@ -1,149 +1,213 @@
 <div align="center">
 
-# ✨ Lumière — Salon & Spa Platform
+<img src="https://capsule-render.vercel.app/api?type=waving&color=gradient&customColorList=2,6,12,20&height=220&section=header&text=Lumi%C3%A8re%20Salon%20%26%20Spa&fontSize=52&fontColor=ffffff&fontAlignY=38&desc=Booking%20%2B%20E-commerce%20%2B%20Admin%2C%20built%20from%20scratch&descAlignY=58&descSize=18&animation=fadeIn" width="100%" alt="Lumière Salon & Spa banner" />
 
-**A full-stack booking + e-commerce + admin platform, built from the ground up.**
+<br/>
 
-Real-time appointment scheduling · Retail shop with cart & checkout · Stripe payments · Full admin console
+[![Live Site](https://img.shields.io/badge/🌐_LIVE_SITE-Visit_Now-FF6B9D?style=for-the-badge&labelColor=1a1a2e)](https://lumiere-salon-frontend.onrender.com)
+[![Live API](https://img.shields.io/badge/⚡_LIVE_API-Explore-4EA8DE?style=for-the-badge&labelColor=1a1a2e)](https://lumiere-salon-backend.onrender.com)
+[![License](https://img.shields.io/badge/LICENSE-MIT-FFD23F?style=for-the-badge&labelColor=1a1a2e)](#)
 
-[Features](#-features) · [Tech Stack](#-tech-stack) · [Architecture](#-architecture) · [Getting Started](#-getting-started) · [API](#-api-overview) · [Screenshots](#-screens)
+<br/>
+
+![Node.js](https://img.shields.io/badge/Node.js-339933?style=flat-square&logo=nodedotjs&logoColor=white)
+![Express](https://img.shields.io/badge/Express-000000?style=flat-square&logo=express&logoColor=white)
+![MongoDB](https://img.shields.io/badge/MongoDB-47A248?style=flat-square&logo=mongodb&logoColor=white)
+![Stripe](https://img.shields.io/badge/Stripe-635BFF?style=flat-square&logo=stripe&logoColor=white)
+![JavaScript](https://img.shields.io/badge/Vanilla_JS-F7DF1E?style=flat-square&logo=javascript&logoColor=black)
+![JWT](https://img.shields.io/badge/JWT-000000?style=flat-square&logo=jsonwebtokens&logoColor=white)
+![Chart.js](https://img.shields.io/badge/Chart.js-FF6384?style=flat-square&logo=chartdotjs&logoColor=white)
+
+<br/>
+
+### 🪞 Real-time booking &nbsp;·&nbsp; 🛍️ Full e-commerce &nbsp;·&nbsp; 💳 Live Stripe payments &nbsp;·&nbsp; 📊 Full admin console
+
+<br/>
+
+**[✨ Features](#-features)** &nbsp;•&nbsp;
+**[🧱 Tech Stack](#-tech-stack)** &nbsp;•&nbsp;
+**[🏗 Architecture](#-architecture)** &nbsp;•&nbsp;
+**[⚡ Getting Started](#-getting-started)** &nbsp;•&nbsp;
+**[🔌 API](#-api-overview)** &nbsp;•&nbsp;
+**[🖼 Screens](#-screens)**
 
 </div>
 
----
+<br/>
 
-## Overview
+<img src="https://raw.githubusercontent.com/andreasbm/readme/master/assets/lines/rainbow.gif" width="100%" height="6px"/>
 
-Lumière is a production-style web platform for a salon & spa business, covering everything the
-business actually needs to run online: a marketing site, real-time appointment booking with
-staff and time-slot availability, a retail product shop, secure card payments, customer
-accounts, and a complete admin dashboard for managing the day-to-day operation.
+## 💫 Overview
+
+<table>
+<tr>
+<td width="60%" valign="top">
+
+Lumière is a **production-style web platform** for a salon & spa business — covering everything
+the business actually needs to run online: a marketing site, real-time appointment booking with
+staff & time-slot availability, a retail product shop, secure card payments, customer accounts,
+and a complete admin dashboard for day-to-day operations.
 
 It's built as a **single-page vanilla JavaScript frontend** talking to a **Node.js/Express REST
-API** backed by **MongoDB**, with **Stripe** handling all payment processing. No framework, no
-bundler, no build step on the client — just clean, dependency-free JavaScript doing real work.
+API** backed by **MongoDB**, with **Stripe** handling every payment. No framework, no bundler, no
+build step on the client — just clean, dependency-free JavaScript doing real work.
 
-> One codebase, same architecture, works for any appointment-based service business — salons,
-> clinics, gyms, studios, tuition centers. Swap the data, keep the engine.
+> 💡 **One codebase, any service business.** Same architecture works for clinics, gyms, studios,
+> tuition centers — swap the data, keep the engine.
 
----
+</td>
+<td width="40%" valign="top">
+
+```
+     ╭──────────────╮
+     │   💇 Salon   │
+     │   🛍️ Shop    │
+     │   💳 Pay     │
+     │   📊 Admin   │
+     ╰──────────────╯
+   Four apps. One codebase.
+```
+
+</td>
+</tr>
+</table>
+
+<br/>
 
 ## 🚀 Features
 
-### Customer-facing
+<table>
+<tr>
+<td valign="top" width="50%">
 
-- **Landing experience** — hero, service highlights, "how it works", stylist team, before/after
-  gallery with lightbox, review carousel, membership tiers, shop preview, location & hours.
-- **Service catalog** — category, price, and duration filtering with a detail modal per service.
-- **5-step booking wizard** — select services & add-ons → choose a stylist (or "any available")
-  → pick a date & real-time available time slot → enter details & apply a coupon → review,
-  choose a deposit/full/at-venue payment option, and pay by card.
-- **Retail shop** — filterable product grid, variants, stock-aware detail pages, a persistent
-  cart drawer with a free-shipping progress bar, and a 3-step checkout.
-- **Customer accounts** — upcoming & past appointments (reschedule/cancel/rebook), order
-  history, loyalty points, saved addresses, profile settings.
-- **Secure checkout** — Stripe Elements card capture with 3D Secure support; guest checkout
-  supported end to end.
+### 🎀 Customer-facing
 
-### Admin console
+- 🏠 **Landing experience** — hero, service highlights, "how it works", stylist team, before/after
+  gallery with lightbox, review carousel, membership tiers, shop preview, location & hours
+- 🔍 **Service catalog** — category / price / duration filters + detail modal per service
+- 🗓️ **5-step booking wizard** — services & add-ons → stylist (or *any available*) → real-time
+  date & time slots → your details + coupon → review & pay (deposit / full / at-venue)
+- 🛒 **Retail shop** — filterable product grid, variants, stock-aware pages, persistent cart
+  drawer with free-shipping progress bar, 3-step checkout
+- 👤 **Customer accounts** — appointments (reschedule / cancel / rebook), order history, loyalty
+  points, saved addresses, profile settings
+- 🔐 **Secure checkout** — Stripe Elements with 3D Secure, full guest-checkout support
 
-- **Dashboard** — live KPIs (today's bookings, monthly revenue with month-over-month change,
-  new customers, average ticket), a 12-month revenue trend chart, today's schedule, and a
-  recent-activity feed.
-- **Appointments** — filterable list, per-status transitions (pending → confirmed → completed /
-  no-show / cancelled), reschedule, and internal notes.
-- **Services, staff & inventory** — full CRUD, staff working-hours & leave management,
-  per-service staff assignment, stock levels with low-stock alerts.
-- **Orders, customers & payments** — order status/tracking pipeline, a searchable customer
-  directory with full visit/spend history, transaction list with refund support and CSV export,
-  and coupon management.
+</td>
+<td valign="top" width="50%">
 
----
+### 🛠️ Admin console
+
+- 📈 **Dashboard** — live KPIs, month-over-month revenue delta, 12-month trend chart, today's
+  schedule, recent-activity feed
+- 📅 **Appointments** — filterable list + calendar view, status pipeline (pending → confirmed →
+  completed / no-show / cancelled), reschedule, internal notes
+- ✂️ **Services, staff & inventory** — full CRUD, working-hours & leave management, per-service
+  staff assignment, low-stock alerts
+- 💰 **Orders, customers & payments** — status/tracking pipeline, searchable customer directory
+  with spend history, refunds, CSV export, coupon management
+
+</td>
+</tr>
+</table>
+
+<img src="https://raw.githubusercontent.com/andreasbm/readme/master/assets/lines/rainbow.gif" width="100%" height="6px"/>
 
 ## 🧱 Tech Stack
 
-| Layer            | Technology                                  |
-|-------------------|----------------------------------------------|
-| Frontend          | Vanilla JavaScript (SPA), HTML5, CSS3        |
-| Routing           | Hash-based client-side router with route guards |
-| Backend           | Node.js + Express                            |
-| Database          | MongoDB + Mongoose                           |
-| Auth              | JWT + bcrypt                                 |
-| Payments          | Stripe (PaymentIntents, Elements, Webhooks)  |
-| Charts            | Chart.js                                     |
+<div align="center">
 
-**Why vanilla JS on the frontend?** No build tooling, no framework lock-in, deployable anywhere
-that serves static files, and every interaction — state, rendering, routing — is hand-rolled and
-transparent rather than hidden behind abstraction.
+| Layer | Technology | Why |
+|:---:|:---:|:---|
+| 🎨 **Frontend** | ![JS](https://img.shields.io/badge/-Vanilla_JS-F7DF1E?style=flat-square&logo=javascript&logoColor=black) | No build tooling, no lock-in, deployable anywhere |
+| 🧭 **Routing** | Hash-based SPA router | Route guards for public / guest / customer / admin |
+| ⚙️ **Backend** | ![Node](https://img.shields.io/badge/-Node.js-339933?style=flat-square&logo=nodedotjs&logoColor=white) ![Express](https://img.shields.io/badge/-Express-000000?style=flat-square&logo=express&logoColor=white) | Battle-tested, minimal, fast |
+| 🗄️ **Database** | ![MongoDB](https://img.shields.io/badge/-MongoDB-47A248?style=flat-square&logo=mongodb&logoColor=white) + Mongoose | Flexible schema for a fast-moving domain |
+| 🔑 **Auth** | JWT + bcrypt | Stateless, industry-standard |
+| 💳 **Payments** | ![Stripe](https://img.shields.io/badge/-Stripe-635BFF?style=flat-square&logo=stripe&logoColor=white) | PaymentIntents, Elements, signed webhooks |
+| 📊 **Charts** | ![Chart.js](https://img.shields.io/badge/-Chart.js-FF6384?style=flat-square&logo=chartdotjs&logoColor=white) | Revenue trend visualization |
 
----
+</div>
+
+> **Why vanilla JS on the frontend?** Every interaction — state, rendering, routing — is
+> hand-rolled and transparent, not hidden behind a framework's abstraction.
+
+<img src="https://raw.githubusercontent.com/andreasbm/readme/master/assets/lines/rainbow.gif" width="100%" height="6px"/>
 
 ## 🏗 Architecture
 
 ```
-Browser (SPA)
-  ├─ STATE          global app state, single source of truth
-  ├─ Router          hash-based routing, public / guest / customer / admin guards
-  ├─ Pages           render functions per route
-  └─ API client      typed fetch wrapper → REST API
-        │  HTTPS / JSON
-        ▼
-Node.js + Express
-  ├─ routes/          URL → controller mapping
-  ├─ controllers/     business logic
-  ├─ models/          Mongoose schemas
-  └─ middleware/      auth, admin guard, error handling
-        │
-        ├──► MongoDB — users, services, staff, appointments,
-        │              products, orders, payments, reviews, coupons
-        └──► Stripe   — PaymentIntents, Elements, signed webhooks
+┌─────────────────────────────────────────────┐
+│              🌐 Browser (SPA)                │
+│                                               │
+│  STATE ──────  global app state, single      │
+│                source of truth               │
+│  Router ─────  hash routing + role guards    │
+│  Pages ──────  render fn per route           │
+│  API client ─  typed fetch wrapper           │
+└───────────────────┬───────────────────────────┘
+                     │  HTTPS / JSON
+                     ▼
+┌─────────────────────────────────────────────┐
+│         ⚙️  Node.js + Express API             │
+│                                               │
+│  routes/ ────  URL → controller mapping      │
+│  controllers/  business logic                │
+│  models/ ────  Mongoose schemas              │
+│  middleware/   auth · admin guard · errors   │
+└──────┬────────────────────────────┬───────────┘
+       │                            │
+       ▼                            ▼
+┌───────────────┐          ┌────────────────────┐
+│  🗄️ MongoDB    │          │  💳 Stripe          │
+│  users, svcs,  │          │  PaymentIntents,    │
+│  staff, appts, │          │  Elements, signed   │
+│  products,     │          │  webhooks           │
+│  orders, pay-  │          └────────────────────┘
+│  ments, etc.   │
+└───────────────┘
 ```
 
-### Design decisions worth knowing about
+### 🧠 Design decisions worth knowing about
 
-- **Snapshot pattern** — appointments and orders store a *copy* of the service/product name and
-  price at the moment of booking, not just a reference. If an admin changes a price six months
-  later, historical bookings still show what the customer actually paid.
-- **Server-verified payment amounts** — the frontend never tells the backend how much to charge.
-  The Stripe PaymentIntent amount is always re-derived from the appointment/order record in the
-  database, closing off a very real class of client-side tampering.
-- **Race-condition-safe booking** — every appointment write re-checks for a conflicting booking
-  immediately before insert, using a numeric time-range query, so two customers can't double
-  book the same slot in the same second.
-- **Signed, raw-body Stripe webhooks** — the webhook route is mounted before the JSON body
-  parser and verifies Stripe's signature on every event, so appointment/order state is only ever
-  updated by a payment Stripe can actually vouch for.
+<table>
+<tr><td>📸</td><td><b>Snapshot pattern</b> — appointments and orders store a <i>copy</i> of the service/product name and price at booking time, not just a reference. Change a price six months later and historical bookings still show what the customer actually paid.</td></tr>
+<tr><td>🛡️</td><td><b>Server-verified payment amounts</b> — the frontend never tells the backend how much to charge. Every Stripe PaymentIntent amount is re-derived from the database record, closing off client-side tampering.</td></tr>
+<tr><td>⚡</td><td><b>Race-condition-safe booking</b> — every appointment write re-checks for conflicts immediately before insert using a numeric time-range query, so two customers can't double-book the same slot.</td></tr>
+<tr><td>🔏</td><td><b>Signed, raw-body Stripe webhooks</b> — mounted before the JSON parser, signature-verified on every event, so state only ever changes on a payment Stripe can vouch for.</td></tr>
+</table>
 
----
+<img src="https://raw.githubusercontent.com/andreasbm/readme/master/assets/lines/rainbow.gif" width="100%" height="6px"/>
 
 ## ⚡ Getting Started
 
-### Option A — Frontend only (no setup required)
+### 🟢 Option A — Frontend only, zero setup
 
-The client ships with realistic mock data and works standalone.
+The client ships with realistic mock data and works completely standalone.
 
 ```bash
 cd client
 # open index.html with any static server, e.g. VS Code "Live Server"
 ```
 
-### Option B — Full stack
+### 🔵 Option B — Full stack
 
 ```bash
-# 1. Backend
+# 1️⃣ Backend
 cd server
 npm install
 cp .env.example .env      # fill in MongoDB URI, JWT secret, Stripe keys
+npm run seed               # optional: seed demo data (admin, staff, services, products...)
 npm run dev
 
-# 2. Frontend
+# 2️⃣ Frontend
 cd client
 # serve with Live Server / any static file server
 ```
 
 **Environment variables** (`server/.env`):
 
-```
+```env
 PORT=5000
 MONGO_URI=mongodb+srv://<user>:<pass>@cluster.mongodb.net/lumiere-salon
 JWT_SECRET=replace_with_a_long_random_string
@@ -152,29 +216,30 @@ STRIPE_WEBHOOK_SECRET=whsec_...
 CLIENT_URL=http://localhost:5500
 ```
 
-MongoDB Atlas' free tier and Stripe test mode are both sufficient to run the full stack at zero
-cost. Test with card `4242 4242 4242 4242`, any future expiry, any CVC.
+> 💰 MongoDB Atlas' free tier and Stripe test mode are both sufficient to run the full stack at
+> **zero cost**. Test with card `4242 4242 4242 4242`, any future expiry, any CVC.
 
----
+<img src="https://raw.githubusercontent.com/andreasbm/readme/master/assets/lines/rainbow.gif" width="100%" height="6px"/>
 
 ## 🔌 API Overview
 
 REST API under `/api`, JSON in and out, JWT bearer auth on protected routes.
 
-```
-POST   /api/auth/register           /api/auth/login          /api/auth/me
-GET    /api/services                /api/staff                /api/products
-GET    /api/appointments/slots      POST /api/appointments    PUT /api/appointments/:id/cancel
-GET    /api/appointments (admin)    PUT  /api/appointments/:id/status (admin)
-POST   /api/orders                  GET  /api/orders/my
-POST   /api/payments/create-intent  POST /api/webhook/stripe
+```http
+POST   /api/auth/register            POST /api/auth/login          GET  /api/auth/me
+GET    /api/services                 GET  /api/staff                GET  /api/products
+GET    /api/appointments/slots       POST /api/appointments         PUT  /api/appointments/:id/cancel
+GET    /api/appointments  🔒admin    PUT  /api/appointments/:id/status  🔒admin
+GET    /api/reviews                  POST /api/reviews              PUT  /api/reviews/:id/approve  🔒admin
+POST   /api/orders                   GET  /api/orders/my
+POST   /api/payments/create-intent   POST /api/webhook/stripe
 POST   /api/coupons/validate
-GET    /api/admin/stats             /api/admin/revenue
+GET    /api/admin/stats  🔒admin     GET  /api/admin/revenue  🔒admin
 ```
 
 Full route list lives in `server/routes/`.
 
----
+<img src="https://raw.githubusercontent.com/andreasbm/readme/master/assets/lines/rainbow.gif" width="100%" height="6px"/>
 
 ## 📁 Project Structure
 
@@ -182,29 +247,41 @@ Full route list lives in `server/routes/`.
 lumiere-salon/
 ├── client/
 │   ├── index.html
-│   ├── css/          design tokens, base, components, layout, admin
-│   ├── js/            state, router, api client, auth, cart, booking, payment
-│   └── pages/          one render module per route (+ admin/ subfolder)
+│   ├── css/         🎨 design tokens, base, components, layout, admin
+│   ├── js/           ⚙️ state, router, api client, auth, cart, booking, payment
+│   └── pages/          📄 one render module per route (+ admin/ subfolder)
 └── server/
     ├── server.js
-    ├── config/         database & Stripe setup
-    ├── models/          9 Mongoose schemas
-    ├── controllers/     business logic per resource
-    ├── routes/           REST endpoints
-    ├── middleware/       auth, admin guard, error handling
-    └── utils/            slot-generation engine, validators
+    ├── config/         🔧 database & Stripe setup
+    ├── models/          🗄️ 9 Mongoose schemas
+    ├── controllers/     🧠 business logic per resource
+    ├── routes/           🛣️ REST endpoints
+    ├── middleware/       🛡️ auth, admin guard, error handling
+    └── utils/            ⚡ slot-generation engine, demo seeder, validators
 ```
 
----
+<img src="https://raw.githubusercontent.com/andreasbm/readme/master/assets/lines/rainbow.gif" width="100%" height="6px"/>
 
 ## 🖼 Screens
 
-*Home · Booking wizard · Shop · Admin dashboard — add screenshots here once deployed.*
+<div align="center">
 
----
+| 🏠 Home | 🗓️ Booking Wizard |
+|:---:|:---:|
+| *Warm gradient hero, popular services, team, reviews* | *5-step flow with live slot availability* |
+| 🛍️ Shop | 📊 Admin Dashboard |
+| *Filterable grid, cart drawer, checkout* | *KPIs, revenue chart, today's schedule* |
+
+**[→ See it live](https://lumiere-salon-frontend.onrender.com)**
+
+</div>
+
+<img src="https://raw.githubusercontent.com/andreasbm/readme/master/assets/lines/rainbow.gif" width="100%" height="6px"/>
 
 <div align="center">
 
-Built by **Mursalin Shuvo**
+### 💌 Built with care by **Mursalin Shuvo**
+
+<img src="https://capsule-render.vercel.app/api?type=waving&color=gradient&customColorList=2,6,12,20&height=100&section=footer" width="100%"/>
 
 </div>

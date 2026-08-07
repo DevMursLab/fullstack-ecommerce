@@ -16,7 +16,8 @@
 }
 @media (prefers-color-scheme: dark) { .site-header { background: rgba(26,22,19,.92); } }
 .header-inner { max-width: var(--container-max); margin: 0 auto; padding: 0 var(--space-5); height: 100%; display: flex; align-items: center; justify-content: space-between; gap: var(--space-6); }
-.logo { font-family: var(--font-serif); font-size: 1.5rem; font-weight: 700; letter-spacing: .02em; }
+.logo { font-family: var(--font-serif); font-size: 1.5rem; font-weight: 700; letter-spacing: .02em; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+@media (max-width: 480px) { .logo { font-size: 1.05rem; } .header-inner { padding: 0 var(--space-3); gap: var(--space-2); } }
 .main-nav { display: flex; gap: var(--space-6); align-items: center; }
 .main-nav .nav-link { font-weight: 500; font-size: .95rem; padding: 8px 2px; border-bottom: 2px solid transparent; transition: border-color var(--t-fast), color var(--t-fast); }
 .main-nav .nav-link:hover, .main-nav .nav-link.active { color: var(--color-accent-dark); border-color: var(--color-accent); }

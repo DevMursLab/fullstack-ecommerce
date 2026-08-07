@@ -51,8 +51,8 @@ function renderStaffProfile(params) {
         ${reviews.length ? reviews.map(r => `
           <div class="card card-body">
             ${stars(r.rating)}
-            <p>"${r.comment}"</p>
-            <strong>${r.customerName}</strong>
+            <p>"${escapeHtml(r.comment)}"</p>
+            <strong>${escapeHtml(r.customerName)}</strong>
           </div>
         `).join('') : '<p>No reviews yet.</p>'}
       </div>
@@ -61,6 +61,7 @@ function renderStaffProfile(params) {
 
   qs('#book-with-btn', root).addEventListener('click', () => {
     setStaff(person._id);
+    try { sessionStorage.setItem('lumiere_booking_session_active', '1'); } catch (err) { /* ignore */ }
     location.hash = '#/book';
   });
 }

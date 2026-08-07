@@ -38,6 +38,7 @@ function renderServices() {
     qsa('.btn-book-service', grid).forEach(btn => btn.addEventListener('click', () => {
       const svc = allServices.find(s => s._id === btn.dataset.id);
       if (svc) selectService(svc);
+      try { sessionStorage.setItem('lumiere_booking_session_active', '1'); } catch (err) { /* ignore */ }
       location.hash = '#/book';
     }));
     qsa('.btn-view-service', grid).forEach(btn => btn.addEventListener('click', () => {
@@ -77,6 +78,7 @@ function renderServices() {
     const bookBtn = qs('#modal-book-btn');
     if (bookBtn) bookBtn.addEventListener('click', () => {
       selectService(svc);
+      try { sessionStorage.setItem('lumiere_booking_session_active', '1'); } catch (err) { /* ignore */ }
       closeModal();
       location.hash = '#/book';
     });

@@ -104,8 +104,8 @@ async function renderProduct(id) {
         ? reviews.map(r => `
           <div class="card mt-2" style="padding:var(--space-3);">
             <div>${stars(r.rating)}</div>
-            <p class="mt-1">"${r.comment}"</p>
-            <p class="text-muted mt-1" style="font-size:.8rem;">— ${r.customerName}</p>
+            <p class="mt-1">"${escapeHtml(r.comment)}"</p>
+            <p class="text-muted mt-1" style="font-size:.8rem;">— ${escapeHtml(r.customerName)}</p>
           </div>
         `).join('')
         : `<p class="text-muted">No reviews yet for this product.</p>`;

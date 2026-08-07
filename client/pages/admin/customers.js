@@ -33,9 +33,9 @@ async function renderAdminCustomers() {
           <tbody>
             ${customers.map(c => `
               <tr data-id="${c._id}">
-                <td>${c.name}</td>
-                <td>${c.email}</td>
-                <td>${c.phone || '—'}</td>
+                <td>${escapeHtml(c.name)}</td>
+                <td>${escapeHtml(c.email)}</td>
+                <td>${escapeHtml(c.phone) || '—'}</td>
                 <td>${formatDate(c.createdAt)}</td>
                 <td class="row-actions"><button class="btn btn-outline btn-sm cust-view-btn" data-id="${c._id}">View</button></td>
               </tr>
@@ -57,13 +57,13 @@ async function renderAdminCustomers() {
     }
     const c = data.customer;
     openModal(`
-      <div class="modal-header"><h2>${c.name}</h2><button class="modal-close" aria-label="Close">✕</button></div>
+      <div class="modal-header"><h2>${escapeHtml(c.name)}</h2><button class="modal-close" aria-label="Close">✕</button></div>
       <div class="modal-body">
-        <p><strong>Email:</strong> ${c.email}</p>
-        <p><strong>Phone:</strong> ${c.phone || '—'}</p>
+        <p><strong>Email:</strong> ${escapeHtml(c.email)}</p>
+        <p><strong>Phone:</strong> ${escapeHtml(c.phone) || '—'}</p>
         <p><strong>Joined:</strong> ${formatDate(c.createdAt)}</p>
         <h4>Appointments (${data.appointments.length})</h4>
-        ${data.appointments.length ? data.appointments.map(a => `<div class="summary-line"><span>${a.bookingNumber} — ${(a.services||[]).map(s=>s.name).join(', ')}</span><span>${formatMoney(a.total)}</span></div>`).join('') : '<p>None yet.</p>'}
+        ${data.appointments.length ? data.appointments.map(a => `<div class="summary-line"><span>${escapeHtml(a.bookingNumber)} — ${(a.services||[]).map(s=>escapeHtml(s.name)).join(', ')}</span><span>${formatMoney(a.total)}</span></div>`).join('') : '<p>None yet.</p>'}
         <h4>Orders (${data.orders.length})</h4>
         ${data.orders.length ? data.orders.map(o => `<div class="summary-line"><span>${o.orderNumber}</span><span>${formatMoney(o.total)}</span></div>`).join('') : '<p>None yet.</p>'}
       </div>

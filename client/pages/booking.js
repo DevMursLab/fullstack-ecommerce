@@ -3,6 +3,20 @@ let _bookingCalYear, _bookingCalMonth, _bookingActiveCategory = 'All';
 function renderBooking() {
   const root = document.getElementById('page-root');
   const today = new Date();
+
+  // Guard against stale booking state leaking to a new visitor on a shared device:
+  // `lumiere_booking_session_active` is a sessionStorage flag (tab/browser-session scoped).
+  // If it isn't set, this is a genuinely fresh visit to /book in this tab (first load,
+  // or a new tab/session after a previous one ended) — clear any leftover wizard state
+  // (including selected services/step, which live in localStorage and could otherwise
+  // survive across different users on the same machine). If it IS set, the user is
+  // simply refreshing or re-navigating mid-flow within the same tab, so we preserve it.
+  try {
+    if (!sessionStorage.getItem('lumiere_booking_session_active')) {
+      resetBooking();
+      sessionStorage.setItem('lumiere_booking_session_active', '1');
+    }
+  } catch (err) { /* sessionStorage unavailable — proceed without the guard */ }
   if (_bookingCalYear === undefined) {
     _bookingCalYear = today.getFullYear();
     _bookingCalMonth = today.getMonth();
@@ -385,7 +399,7 @@ function renderStep5() {
     <h2>Payment</h2>
     <div class="card card-body" style="margin-bottom:1rem;">
       <h4>Summary</h4>
-      <p><strong>Services:</strong> ${b.selectedServices.map(s => s.name).join(', ')}</p>
+      <p><strong>Services:</strong> ${b.selectedServices.map(s => escapeHtml(s.name)).join(', ')}</p>
       <p><strong>Date:</strong> ${formatDate(b.date)} at ${formatTime12h(b.time)}</p>
       <p><strong>Total:</strong> ${formatMoney(getBookingTotal())}</p>
     </div>
@@ -448,6 +462,7 @@ function renderStep5() {
       date: b.date, time: b.time, total: getBookingTotal()
     }));
     resetBooking();
+    try { sessionStorage.removeItem('lumiere_booking_session_active'); } catch (err) { /* ignore */ }
     location.hash = '#/book/confirm';
   });
 

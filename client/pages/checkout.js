@@ -185,8 +185,8 @@ function renderCheckoutStep3(el) {
     <h2>Review &amp; Payment</h2>
     <div class="card mt-4" style="padding:var(--space-5);">
       <h4>Shipping To</h4>
-      <p class="mt-2">${STATE.checkout.shippingAddress ? `${STATE.checkout.shippingAddress.name}, ${STATE.checkout.shippingAddress.street}, ${STATE.checkout.shippingAddress.city}` : ''}</p>
-      <p class="text-muted mt-1">${STATE.checkout.shippingAddress ? STATE.checkout.shippingAddress.phone : ''}</p>
+      <p class="mt-2">${STATE.checkout.shippingAddress ? `${escapeHtml(STATE.checkout.shippingAddress.name)}, ${escapeHtml(STATE.checkout.shippingAddress.street)}, ${escapeHtml(STATE.checkout.shippingAddress.city)}` : ''}</p>
+      <p class="text-muted mt-1">${STATE.checkout.shippingAddress ? escapeHtml(STATE.checkout.shippingAddress.phone) : ''}</p>
     </div>
     <div id="checkout-payment-panel" class="mt-6">
       <div id="stripe-checkout-card" class="card" style="padding:var(--space-4);"></div>

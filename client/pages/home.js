@@ -77,8 +77,8 @@ function renderHome() {
         ${reviews.map(r => `
           <div class="card card-body">
             ${stars(r.rating)}
-            <p>"${r.comment}"</p>
-            <strong>${r.customerName}</strong>
+            <p>"${escapeHtml(r.comment)}"</p>
+            <strong>${escapeHtml(r.customerName)}</strong>
           </div>
         `).join('')}
       </div>
@@ -150,6 +150,7 @@ function renderHome() {
   qsa('.btn-book-service', root).forEach(btn => btn.addEventListener('click', () => {
     const svc = services.find(s => s._id === btn.dataset.id);
     if (svc) selectService(svc);
+    try { sessionStorage.setItem('lumiere_booking_session_active', '1'); } catch (err) { /* ignore */ }
     location.hash = '#/book';
   }));
 

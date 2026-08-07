@@ -100,6 +100,7 @@ function resetBooking() {
     couponCode: null, discount: 0, paymentOption: 'deposit'
   };
   STATE.availableSlots = [];
+  try { sessionStorage.removeItem('lumiere_booking_customer_info'); } catch (err) { /* ignore */ }
   persistState();
 }
 
@@ -240,18 +241,25 @@ function setProducts(arr) { STATE.products = arr || []; }
 function setReviews(arr) { STATE.reviews = arr || []; }
 
 /* ---------------- Persistence ---------------- */
+// Guest PII (booking.customerInfo: name/email/phone/note) is kept in sessionStorage,
+// not localStorage — it must not survive across browser sessions or leak to the next
+// person who opens the site on a shared/demo device. Everything else in `booking`
+// (selected services, staff, date/time, step) is low-sensitivity wizard progress and
+// stays in localStorage so an accidental refresh doesn't lose it.
 function persistState() {
   try {
+    const { customerInfo, ...bookingRest } = STATE.booking;
     const toSave = {
       cart: STATE.cart,
       wishlist: STATE.wishlist,
-      booking: STATE.booking,
+      booking: bookingRest,
       token: STATE.token,
       user: STATE.user,
       theme: STATE.ui.theme,
       checkout: STATE.checkout
     };
     localStorage.setItem('lumiere_v1', JSON.stringify(toSave));
+    sessionStorage.setItem('lumiere_booking_customer_info', JSON.stringify(customerInfo));
   } catch (err) {
     console.error('persistState failed', err);
   }
@@ -260,18 +268,25 @@ function persistState() {
 function restoreState() {
   try {
     const raw = localStorage.getItem('lumiere_v1');
-    if (!raw) return;
-    const saved = JSON.parse(raw);
-    if (saved.cart) STATE.cart = saved.cart;
-    if (saved.wishlist) STATE.wishlist = saved.wishlist;
-    if (saved.booking) STATE.booking = saved.booking;
-    if (saved.token) STATE.token = saved.token;
-    if (saved.user) STATE.user = saved.user;
-    if (saved.token) STATE.isLoggedIn = true;
-    if (saved.theme) STATE.ui.theme = saved.theme;
-    if (saved.checkout) STATE.checkout = saved.checkout;
+    if (raw) {
+      const saved = JSON.parse(raw);
+      if (saved.cart) STATE.cart = saved.cart;
+      if (saved.wishlist) STATE.wishlist = saved.wishlist;
+      if (saved.booking) STATE.booking = { ...STATE.booking, ...saved.booking };
+      if (saved.token) STATE.token = saved.token;
+      if (saved.user) STATE.user = saved.user;
+      if (saved.token) STATE.isLoggedIn = true;
+      if (saved.theme) STATE.ui.theme = saved.theme;
+      if (saved.checkout) STATE.checkout = saved.checkout;
+    }
+    // customerInfo is tab/session-scoped only — never restored from localStorage.
+    const rawCustomerInfo = sessionStorage.getItem('lumiere_booking_customer_info');
+    if (rawCustomerInfo) {
+      STATE.booking.customerInfo = { ...STATE.booking.customerInfo, ...JSON.parse(rawCustomerInfo) };
+    }
   } catch (err) {
     console.error('restoreState failed, clearing corrupt state', err);
     localStorage.removeItem('lumiere_v1');
+    sessionStorage.removeItem('lumiere_booking_customer_info');
   }
 }

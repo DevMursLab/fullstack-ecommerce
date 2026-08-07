@@ -61,11 +61,11 @@ async function renderBookingsTab(content) {
     return `
       <div class="card card-body" data-id="${a._id}" style="margin-bottom:1rem;">
         <div class="header-actions" style="justify-content:space-between;">
-          <strong>${a.bookingNumber}</strong>
+          <strong>${escapeHtml(a.bookingNumber)}</strong>
           <span class="status-pill status-${a.status}">${a.status}</span>
         </div>
-        <p>${(a.services || []).map(s => s.name).join(', ')}</p>
-        <p>${formatDate(a.date)} at ${formatTime12h(a.startTime)} with ${staffName}</p>
+        <p>${(a.services || []).map(s => escapeHtml(s.name)).join(', ')}</p>
+        <p>${formatDate(a.date)} at ${formatTime12h(a.startTime)} with ${escapeHtml(staffName)}</p>
         <p><strong>Total:</strong> ${formatMoney(a.total)}</p>
         ${a.status !== 'cancelled' && a.status !== 'completed' ? `
           <div class="header-actions">
@@ -104,6 +104,9 @@ async function renderBookingsTab(content) {
       const svc = allServices.find(sv => sv._id === s.serviceId || sv._id === s.serviceId?._id);
       if (svc) selectService(svc);
     });
+    // Mark the booking session active so renderBooking() doesn't immediately reset
+    // the selections we just made above.
+    try { sessionStorage.setItem('lumiere_booking_session_active', '1'); } catch (err) { /* ignore */ }
     location.hash = '#/book';
   }));
 }
@@ -147,10 +150,10 @@ async function renderOrdersTab(content) {
   content.innerHTML = orders.length ? orders.map(o => `
     <div class="card card-body" style="margin-bottom:1rem;">
       <div class="header-actions" style="justify-content:space-between;">
-        <strong>${o.orderNumber}</strong>
+        <strong>${escapeHtml(o.orderNumber)}</strong>
         <span class="status-pill status-${o.status}">${o.status}</span>
       </div>
-      <p>${(o.items || []).map(it => `${it.name} × ${it.quantity}`).join(', ')}</p>
+      <p>${(o.items || []).map(it => `${escapeHtml(it.name)} × ${it.quantity}`).join(', ')}</p>
       <p><strong>Total:</strong> ${formatMoney(o.total)}</p>
       <p><small>Placed ${formatDate(o.createdAt)}</small></p>
     </div>
@@ -176,8 +179,8 @@ function renderProfileTab(content) {
     <div class="grid-2">
       <div class="card card-body">
         <h3>Edit Profile</h3>
-        <div class="form-group"><label class="form-label">Name</label><input type="text" class="form-control" id="pf-name" value="${user.name || ''}"></div>
-        <div class="form-group"><label class="form-label">Phone</label><input type="tel" class="form-control" id="pf-phone" value="${user.phone || ''}"></div>
+        <div class="form-group"><label class="form-label">Name</label><input type="text" class="form-control" id="pf-name" value="${escapeHtml(user.name) || ''}"></div>
+        <div class="form-group"><label class="form-label">Phone</label><input type="tel" class="form-control" id="pf-phone" value="${escapeHtml(user.phone) || ''}"></div>
         <button class="btn btn-primary" id="pf-save-btn">Save Changes</button>
       </div>
       <div class="card card-body">

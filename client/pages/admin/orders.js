@@ -32,16 +32,16 @@ async function renderAdminOrders() {
           <tbody>
             ${orders.map(o => `
               <tr data-id="${o._id}">
-                <td>${o.orderNumber}</td>
-                <td>${o.customerId ? o.customerId.name : 'Guest'}</td>
-                <td>${(o.items || []).map(it => `${it.name} × ${it.quantity}`).join(', ')}</td>
+                <td>${escapeHtml(o.orderNumber)}</td>
+                <td>${escapeHtml(o.customerId ? o.customerId.name : 'Guest')}</td>
+                <td>${(o.items || []).map(it => `${escapeHtml(it.name)} × ${it.quantity}`).join(', ')}</td>
                 <td>${formatMoney(o.total)}</td>
                 <td>
                   <select class="form-control ord-status-select" data-id="${o._id}">
                     ${ADMIN_ORDER_STATUSES.map(s => `<option value="${s}" ${o.status === s ? 'selected' : ''}>${s}</option>`).join('')}
                   </select>
                 </td>
-                <td><input type="text" class="form-control ord-tracking-input" data-id="${o._id}" value="${o.trackingNumber || ''}" placeholder="tracking #"></td>
+                <td><input type="text" class="form-control ord-tracking-input" data-id="${o._id}" value="${escapeHtml(o.trackingNumber) || ''}" placeholder="tracking #"></td>
                 <td class="row-actions"><button class="btn btn-outline btn-sm ord-save-btn" data-id="${o._id}">Save</button></td>
               </tr>
             `).join('') || '<tr><td colspan="7">No orders yet.</td></tr>'}

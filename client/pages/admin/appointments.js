@@ -58,11 +58,11 @@ async function renderAdminAppointments() {
           <tbody>
             ${allAppointments.map(a => `
               <tr data-id="${a._id}">
-                <td>${a.bookingNumber}</td>
-                <td>${a.customerId ? a.customerId.name : (a.guestInfo ? a.guestInfo.name : 'Guest')}</td>
-                <td>${(a.services || []).map(s => s.name).join(', ')}</td>
+                <td>${escapeHtml(a.bookingNumber)}</td>
+                <td>${escapeHtml(a.customerId ? a.customerId.name : (a.guestInfo ? a.guestInfo.name : 'Guest'))}</td>
+                <td>${(a.services || []).map(s => escapeHtml(s.name)).join(', ')}</td>
                 <td>${formatDate(a.date)} ${formatTime12h(a.startTime)}</td>
-                <td>${a.staffId ? a.staffId.name : '—'}</td>
+                <td>${escapeHtml(a.staffId ? a.staffId.name : '—')}</td>
                 <td>${formatMoney(a.total)}</td>
                 <td>
                   <select class="form-control appt-status-select" data-id="${a._id}">
@@ -115,7 +115,7 @@ async function renderAdminAppointments() {
           return `
             <div class="admin-calendar-cell${d.isCurrentMonth ? '' : ' is-outside'}${d.isToday ? ' is-today' : ''}">
               <div class="admin-calendar-date">${d.date}</div>
-              ${shown.map(a => `<div class="admin-calendar-appt status-${a.status}" title="${(a.services || []).map(s => s.name).join(', ')} — ${a.customerId ? a.customerId.name : (a.guestInfo ? a.guestInfo.name : 'Guest')}">${formatTime12h(a.startTime)} ${a.customerId ? a.customerId.name : (a.guestInfo ? a.guestInfo.name : 'Guest')}</div>`).join('')}
+              ${shown.map(a => `<div class="admin-calendar-appt status-${a.status}" title="${escapeHtml((a.services || []).map(s => s.name).join(', ') + ' — ' + (a.customerId ? a.customerId.name : (a.guestInfo ? a.guestInfo.name : 'Guest')))}">${formatTime12h(a.startTime)} ${escapeHtml(a.customerId ? a.customerId.name : (a.guestInfo ? a.guestInfo.name : 'Guest'))}</div>`).join('')}
               ${extra > 0 ? `<div class="admin-calendar-more">+${extra} more</div>` : ''}
             </div>
           `;

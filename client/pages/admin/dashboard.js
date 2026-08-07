@@ -129,8 +129,8 @@ async function loadTodaySchedule() {
     if (!data || !data.success) throw new Error('failed');
     el.innerHTML = data.appointments.length ? data.appointments.map(a => `
       <div class="card card-body" style="margin-bottom:.5rem;">
-        <strong>${formatTime12h(a.startTime)}</strong> — ${(a.services || []).map(s => s.name).join(', ')}
-        <br><small>${a.customerId ? a.customerId.name : (a.guestInfo ? a.guestInfo.name : 'Guest')} with ${a.staffId ? a.staffId.name : '—'}</small>
+        <strong>${formatTime12h(a.startTime)}</strong> — ${(a.services || []).map(s => escapeHtml(s.name)).join(', ')}
+        <br><small>${escapeHtml(a.customerId ? a.customerId.name : (a.guestInfo ? a.guestInfo.name : 'Guest'))} with ${escapeHtml(a.staffId ? a.staffId.name : '—')}</small>
         <span class="status-pill status-${a.status}">${a.status}</span>
       </div>
     `).join('') : '<p>No appointments today.</p>';
@@ -146,7 +146,7 @@ async function loadActivity() {
     if (!data || !data.success) throw new Error('failed');
     el.innerHTML = data.activity.length ? data.activity.map(a => `
       <div class="card card-body" style="margin-bottom:.5rem;">
-        <strong>${a.label}</strong> <span class="status-pill status-${a.status}">${a.status}</span>
+        <strong>${escapeHtml(a.label)}</strong> <span class="status-pill status-${a.status}">${a.status}</span>
         <br><small>${formatDate(a.createdAt)}</small>
       </div>
     `).join('') : '<p>No recent activity.</p>';
@@ -163,7 +163,7 @@ async function loadLowStock() {
     el.innerHTML = data.products.length ? `
       <div class="admin-table-wrap"><table class="admin-table">
         <thead><tr><th>Product</th><th>Stock</th></tr></thead>
-        <tbody>${data.products.map(p => `<tr><td>${p.name}</td><td><span class="badge badge-warning">${p.stock}</span></td></tr>`).join('')}</tbody>
+        <tbody>${data.products.map(p => `<tr><td>${escapeHtml(p.name)}</td><td><span class="badge badge-warning">${p.stock}</span></td></tr>`).join('')}</tbody>
       </table></div>
     ` : '<p>No low-stock products.</p>';
   } catch (err) {

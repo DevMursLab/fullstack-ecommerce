@@ -132,6 +132,12 @@ function createEl(tag, attrs = {}, children = []) {
   return el;
 }
 
+const _escapeHtmlMap = { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' };
+function escapeHtml(str) {
+  if (str === null || str === undefined) return '';
+  return String(str).replace(/[&<>"']/g, (ch) => _escapeHtmlMap[ch]);
+}
+
 function getInitials(name) {
   if (!name) return '';
   return name.trim().split(/\s+/).slice(0, 2).map(p => p[0].toUpperCase()).join('');

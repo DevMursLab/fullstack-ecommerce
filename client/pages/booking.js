@@ -329,20 +329,25 @@ function renderStep3() {
 /* ---------------- Step 4: Your Info ---------------- */
 function renderStep4() {
   const el = qs('#wizard-content');
-  const info = STATE.booking.customerInfo;
   const prefill = STATE.isLoggedIn && STATE.user ? STATE.user : null;
 
   // If a logged-in user's profile fills in fields the customer hasn't touched yet,
   // sync that into booking state now — the browser sets the input's `value` attribute
   // without firing an `input` event, so without this the fields look filled on screen
   // but STATE.booking.customerInfo stays empty and the "Next" validation below fails.
+  // setCustomerInfo() reassigns STATE.booking.customerInfo to a new object, so we must
+  // re-read it afterwards rather than reuse a `const` captured before the call — the
+  // old reference would otherwise still be visible in stale closures below.
   if (prefill) {
+    const current = STATE.booking.customerInfo;
     setCustomerInfo({
-      name: info.name || prefill.name || '',
-      email: info.email || prefill.email || '',
-      phone: info.phone || prefill.phone || ''
+      name: current.name || prefill.name || '',
+      email: current.email || prefill.email || '',
+      phone: current.phone || prefill.phone || ''
     });
   }
+
+  const info = STATE.booking.customerInfo;
 
   el.innerHTML = `
     <h2>Your Information</h2>

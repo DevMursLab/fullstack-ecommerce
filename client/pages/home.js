@@ -111,16 +111,7 @@ function renderHome() {
     <section class="page-section">
       <div class="section-heading"><h2>Shop Best Sellers</h2><a href="#/shop">Shop all</a></div>
       <div class="grid-4">
-        ${products.map(p => `
-          <a href="#/product/${p._id}" class="card product-card">
-            <div class="card-media"><img src="${p.images[0]}" alt="${p.name}" onerror="this.style.opacity=0"></div>
-            <div class="card-body">
-              <div class="card-title">${p.name}</div>
-              <div class="card-price">${formatMoney(p.variants[0].price)} ${p.originalPrice ? `<span class="old-price">${formatMoney(p.originalPrice)}</span>` : ''}</div>
-              ${stars(p.rating)}
-            </div>
-          </a>
-        `).join('')}
+        ${products.map(p => productCardHTML(p, { quickView: false })).join('')}
       </div>
     </section>
 
@@ -146,6 +137,17 @@ function renderHome() {
       </form>
     </section>
   `;
+
+  qsa('.shop-add-cart', root).forEach(btn => btn.addEventListener('click', (e) => {
+    e.preventDefault();
+    const p = products.find(pr => pr._id === btn.dataset.id);
+    if (p) {
+      addToCart(p, p.variants[0], 1);
+      renderHeader();
+      if (typeof renderCartDrawer === 'function') renderCartDrawer();
+      showToast('Added to cart', 'success');
+    }
+  }));
 
   qsa('.btn-book-service', root).forEach(btn => btn.addEventListener('click', () => {
     const svc = services.find(s => s._id === btn.dataset.id);

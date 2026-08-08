@@ -28,30 +28,31 @@ async function renderProduct(id) {
   root.innerHTML = `
     <section class="page-section">
       <div class="container">
-        <div class="grid-2" style="display:grid;grid-template-columns:1fr 1fr;gap:var(--space-8);">
+        <div class="grid-2">
           <div>
-            <div class="card-media" id="product-main-img" style="border-radius:var(--radius-lg);aspect-ratio:1;">
+            <div class="card-media product-gallery-main" id="product-main-img">
               <img src="${(p.images || [])[0] || ''}" alt="${p.name}" onerror="this.style.display='none'">
             </div>
-            <div class="flex gap-2 mt-3" id="thumb-strip">
+            <div class="flex gap-2 mt-3 product-thumb-strip" id="thumb-strip">
               ${(p.images || []).map((img, i) => `
-                <div class="card-media thumb-item ${i === 0 ? 'selected' : ''}" data-idx="${i}" style="width:64px;height:64px;border-radius:var(--radius-sm);cursor:pointer;border:2px solid ${i === 0 ? 'var(--color-accent)' : 'transparent'};">
+                <div class="card-media product-thumb thumb-item ${i === 0 ? 'selected' : ''}" data-idx="${i}">
                   <img src="${img}" alt="${p.name} ${i + 1}" onerror="this.style.display='none'">
                 </div>
               `).join('')}
             </div>
           </div>
           <div>
-            <p class="text-muted">${p.brand}</p>
+            ${p.category ? `<span class="product-badge" data-cat="${escapeHtml(p.category)}">${escapeHtml(p.category)}</span>` : ''}
+            <p class="product-info-brand mt-2">${p.brand || ''}</p>
             <h1>${p.name}</h1>
             <div class="mt-2">${stars(p.rating)} <span class="text-muted">(${p.reviewCount} reviews)</span></div>
-            <p class="card-price mt-3" id="product-price" style="font-size:1.4rem;"></p>
+            <p class="card-price product-info-price mt-3" id="product-price"></p>
 
-            <div class="mt-4">
-              <strong>Options</strong>
-              <div class="flex gap-2 mt-2" style="flex-wrap:wrap;" id="variant-selector">
+            <div class="mt-6">
+              <div class="product-options-label">Options</div>
+              <div class="flex gap-2 mt-2 product-variant-selector" id="variant-selector">
                 ${p.variants.map((v, i) => `
-                  <label class="option-card" data-idx="${i}" style="padding:8px 14px;${v.stock <= 0 ? 'opacity:.4;' : ''}">
+                  <label class="option-card product-variant-option ${v.stock <= 0 ? 'out-of-stock' : ''}" data-idx="${i}">
                     <input type="radio" name="variant" ${i === 0 ? 'checked' : ''} ${v.stock <= 0 ? 'disabled' : ''}>
                     <span>${v.name} — ${formatMoney(v.price)}${v.stock <= 0 ? ' (Out of Stock)' : ''}</span>
                   </label>
@@ -59,13 +60,14 @@ async function renderProduct(id) {
               </div>
             </div>
 
-            <div class="mt-4 flex items-center gap-4">
+            <div class="mt-6 flex items-center gap-4 product-purchase-row">
               <div class="qty-stepper">
                 <button id="qty-dec">−</button>
                 <span id="qty-display">1</span>
                 <button id="qty-inc">+</button>
               </div>
               <button class="btn btn-primary btn-lg" id="add-to-cart-btn">Add to Cart</button>
+              <button class="btn btn-lg btn-buy-now" id="buy-now-btn">Buy Now</button>
             </div>
 
             <div class="tabs mt-8" id="product-tabs">
@@ -80,7 +82,7 @@ async function renderProduct(id) {
         ${related.length ? `
         <div class="mt-16">
           <h3>You Might Also Like</h3>
-          <div class="grid grid-4 gap-6 mt-4">
+          <div class="grid grid-4 mt-4">
             ${related.map(r => relatedProductCardHTML(r)).join('')}
           </div>
         </div>` : ''}
@@ -102,10 +104,10 @@ async function renderProduct(id) {
     } else if (tab === 'reviews') {
       panel.innerHTML = reviews.length
         ? reviews.map(r => `
-          <div class="card mt-2" style="padding:var(--space-3);">
+          <div class="card related-review-card mt-2">
             <div>${stars(r.rating)}</div>
             <p class="mt-1">"${escapeHtml(r.comment)}"</p>
-            <p class="text-muted mt-1" style="font-size:.8rem;">— ${escapeHtml(r.customerName)}</p>
+            <p class="text-muted mt-1 fs-xs">— ${escapeHtml(r.customerName)}</p>
           </div>
         `).join('')
         : `<p class="text-muted">No reviews yet for this product.</p>`;
@@ -122,8 +124,8 @@ async function renderProduct(id) {
   document.getElementById('thumb-strip').querySelectorAll('.thumb-item').forEach(thumb => thumb.addEventListener('click', () => {
     activeImage = Number(thumb.dataset.idx);
     document.querySelector('#product-main-img img').src = p.images[activeImage];
-    document.querySelectorAll('.thumb-item').forEach(t => t.style.borderColor = 'transparent');
-    thumb.style.borderColor = 'var(--color-accent)';
+    document.querySelectorAll('.thumb-item').forEach(t => t.classList.remove('selected'));
+    thumb.classList.add('selected');
   }));
 
   document.getElementById('variant-selector').querySelectorAll('[data-idx]').forEach(label => label.addEventListener('click', () => {
@@ -137,8 +139,11 @@ async function renderProduct(id) {
 
   function updateAddToCartState() {
     const btn = document.getElementById('add-to-cart-btn');
-    btn.disabled = p.variants[activeVariant].stock <= 0;
-    btn.textContent = p.variants[activeVariant].stock <= 0 ? 'Out of Stock' : 'Add to Cart';
+    const buyBtn = document.getElementById('buy-now-btn');
+    const outOfStock = p.variants[activeVariant].stock <= 0;
+    btn.disabled = outOfStock;
+    btn.textContent = outOfStock ? 'Out of Stock' : 'Add to Cart';
+    if (buyBtn) buyBtn.disabled = outOfStock;
   }
   updateAddToCartState();
 
@@ -151,9 +156,9 @@ async function renderProduct(id) {
     document.getElementById('qty-display').textContent = qty;
   });
 
-  document.getElementById('add-to-cart-btn').addEventListener('click', () => {
+  function doAddToCart() {
     const variant = p.variants[activeVariant];
-    if (variant.stock <= 0) return;
+    if (variant.stock <= 0) return false;
     if (typeof addProductToCart === 'function') {
       addProductToCart(p, variant.name, qty);
     } else {
@@ -162,19 +167,17 @@ async function renderProduct(id) {
       if (typeof renderCartDrawer === 'function') renderCartDrawer();
       showToast(`${p.name} added to cart.`, 'success');
     }
+    return true;
+  }
+
+  document.getElementById('add-to-cart-btn').addEventListener('click', doAddToCart);
+
+  const buyNowBtn = document.getElementById('buy-now-btn');
+  if (buyNowBtn) buyNowBtn.addEventListener('click', () => {
+    if (doAddToCart()) location.hash = '#/cart';
   });
 }
 
 function relatedProductCardHTML(p) {
-  const variant = p.variants[0];
-  return `
-    <a href="#/product/${p._id}" class="product-card">
-      <div class="card-media"><img src="${(p.images || [])[0]}" alt="${p.name}" onerror="this.style.display='none'"></div>
-      <div class="card-body">
-        <h4 class="card-title">${p.name}</h4>
-        <div class="mt-1">${stars(p.rating)}</div>
-        <p class="card-price mt-1">${formatMoney(variant.price)}</p>
-      </div>
-    </a>
-  `;
+  return productCardHTML(p, { quickView: false });
 }

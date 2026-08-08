@@ -54,6 +54,7 @@ table { border-collapse: collapse; width: 100%; }
 .mt-2 { margin-top: var(--space-2); } .mt-4 { margin-top: var(--space-4); } .mt-6 { margin-top: var(--space-6); } .mt-8 { margin-top: var(--space-8); }
 .mb-2 { margin-bottom: var(--space-2); } .mb-4 { margin-bottom: var(--space-4); } .mb-6 { margin-bottom: var(--space-6); } .mb-8 { margin-bottom: var(--space-8); }
 .text-muted { color: var(--color-text-muted); }
+.fs-xs { font-size: var(--fs-xs, .75rem); }
 .text-accent { color: var(--color-accent); }
 .w-full { width: 100%; }
 

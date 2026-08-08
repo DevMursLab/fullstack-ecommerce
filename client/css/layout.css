@@ -154,7 +154,16 @@
 /* Review slider */
 .review-slider { max-width: 640px; margin: 0 auto; text-align: center; min-height: 140px; }
 
+/* Shop page */
+.shop-layout { grid-template-columns: 260px 1fr; align-items: start; }
+@media (max-width: 900px) { .shop-layout { grid-template-columns: 1fr; } }
+.shop-sidebar { background: var(--color-surface); border: 1px solid var(--color-border); border-radius: var(--radius-lg); padding: var(--space-5); position: sticky; top: calc(var(--header-height, 76px) + var(--space-4)); }
+@media (max-width: 900px) { .shop-sidebar { position: static; } }
+.shop-toolbar { margin-bottom: var(--space-5); justify-content: space-between; }
+.shop-sort-select { max-width: 220px; }
+
 /* Grids */
+.grid-2, .grid-3, .grid-4, .grid-6 { display: grid; gap: var(--space-6); }
 .grid-2 { grid-template-columns: repeat(2, 1fr); }
 .grid-3 { grid-template-columns: repeat(3, 1fr); }
 .grid-4 { grid-template-columns: repeat(4, 1fr); }

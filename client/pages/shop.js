@@ -8,8 +8,8 @@ function renderShop() {
   root.innerHTML = `
     <section class="page-section">
       <div class="section-heading"><h1>Shop</h1></div>
-      <div class="grid-2" style="grid-template-columns: 260px 1fr;">
-        <aside>
+      <div class="grid-2 shop-layout">
+        <aside class="shop-sidebar">
           <div class="form-group">
             <label class="form-label">Search</label>
             <input type="text" class="form-control" id="shop-search" value="${STATE.shopFilters.query || ''}" placeholder="Search products...">
@@ -40,9 +40,9 @@ function renderShop() {
           </div>
         </aside>
         <div>
-          <div class="header-actions" style="margin-bottom:1rem;justify-content:space-between;">
+          <div class="header-actions shop-toolbar">
             <span id="shop-result-count"></span>
-            <select class="form-control" id="shop-sort" style="max-width:220px;">
+            <select class="form-control shop-sort-select" id="shop-sort">
               <option value="featured" ${STATE.shopFilters.sort === 'featured' ? 'selected' : ''}>Featured</option>
               <option value="price-asc" ${STATE.shopFilters.sort === 'price-asc' ? 'selected' : ''}>Price: Low to High</option>
               <option value="price-desc" ${STATE.shopFilters.sort === 'price-desc' ? 'selected' : ''}>Price: High to Low</option>
@@ -88,24 +88,7 @@ function renderShop() {
     qs('#shop-result-count', root).textContent = `${filtered.length} product${filtered.length !== 1 ? 's' : ''}`;
 
     const grid = qs('#shop-grid', root);
-    grid.innerHTML = pageItems.map(p => {
-      const v = p.variants[0];
-      const inStock = v.stock > 0;
-      return `
-        <div class="card product-card">
-          <a href="#/product/${p._id}"><div class="card-media"><img src="${p.images[0]}" alt="${p.name}" onerror="this.style.opacity=0"></div></a>
-          <div class="card-body">
-            <div class="card-title"><a href="#/product/${p._id}">${p.name}</a></div>
-            <div class="card-price">${formatMoney(v.price)} ${p.originalPrice ? `<span class="old-price">${formatMoney(p.originalPrice)}</span>` : ''}</div>
-            ${stars(p.rating)}
-            <div class="header-actions">
-              <button class="btn btn-outline btn-sm shop-quick-view" data-id="${p._id}">Quick View</button>
-              <button class="btn btn-primary btn-sm shop-add-cart" data-id="${p._id}" ${inStock ? '' : 'disabled'}>${inStock ? 'Add to Cart' : 'Out of Stock'}</button>
-            </div>
-          </div>
-        </div>
-      `;
-    }).join('') || '<div class="empty-state"><p>No products match your filters.</p></div>';
+    grid.innerHTML = pageItems.map(p => productCardHTML(p)).join('') || '<div class="empty-state"><p>No products match your filters.</p></div>';
 
     const pagEl = qs('#shop-pagination', root);
     let pagHtml = '';

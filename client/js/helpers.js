@@ -142,3 +142,39 @@ function getInitials(name) {
   if (!name) return '';
   return name.trim().split(/\s+/).slice(0, 2).map(p => p[0].toUpperCase()).join('');
 }
+
+/* Shared product card markup — used on Shop grid, Home "Best Sellers", and
+   the "Related Products" section on the product detail page. Renders full
+   product info (category, name, rating, price, stock, Add to Cart) visibly
+   by default, no hover required. */
+function productCardHTML(p, opts = {}) {
+  const v = (p.variants || [])[0] || {};
+  const inStock = v.stock > 0;
+  const onSale = !!p.originalPrice && p.originalPrice > v.price;
+  const media = p.images && p.images[0]
+    ? `<img src="${p.images[0]}" alt="${escapeHtml(p.name)}" onerror="this.replaceWith(Object.assign(document.createElement('div'),{className:'placeholder-icon',textContent:'🛍️'}))">`
+    : `<div class="placeholder-icon">🛍️</div>`;
+  const showQuickView = opts.quickView !== false;
+
+  return `
+    <div class="card product-card" data-id="${p._id}">
+      ${p.category ? `<span class="product-badge" data-cat="${escapeHtml(p.category)}">${escapeHtml(p.category)}</span>` : ''}
+      ${onSale ? `<span class="product-badge sale" style="left:auto;right:var(--space-3);">Sale</span>` : ''}
+      <a href="#/product/${p._id}"><div class="card-media">${media}</div></a>
+      <div class="card-body">
+        ${p.brand ? `<div class="product-brand">${escapeHtml(p.brand)}</div>` : ''}
+        <div class="card-title"><a href="#/product/${p._id}">${escapeHtml(p.name)}</a></div>
+        <div class="product-rating-row">${stars(p.rating)} <span>${(p.rating || 0).toFixed(1)} (${p.reviewCount || 0})</span></div>
+        <div class="card-price">
+          ${formatMoney(v.price)}
+          ${onSale ? `<span class="old-price">${formatMoney(p.originalPrice)}</span>` : ''}
+        </div>
+        <div class="stock-note ${inStock ? 'in' : 'out'}">${inStock ? 'In stock' : 'Out of stock'}</div>
+        <div class="product-card-actions">
+          ${showQuickView ? `<button class="btn btn-outline btn-sm shop-quick-view" data-id="${p._id}">Quick View</button>` : ''}
+          <button class="btn btn-primary btn-sm btn-add-cart shop-add-cart" data-id="${p._id}" ${inStock ? '' : 'disabled'}>${inStock ? 'Add to Cart' : 'Out of Stock'}</button>
+        </div>
+      </div>
+    </div>
+  `;
+}

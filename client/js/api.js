@@ -3,15 +3,19 @@
 
 const API_BASE = CONFIG.API_URL;
 
-async function request(method, endpoint, body = null) {
+async function request(method, endpoint, body = null, timeoutMs = 15000) {
   const headers = { 'Content-Type': 'application/json' };
   if (STATE.token) headers['Authorization'] = `Bearer ${STATE.token}`;
+
+  const controller = new AbortController();
+  const timer = setTimeout(() => controller.abort(), timeoutMs);
 
   try {
     const res = await fetch(`${API_BASE}${endpoint}`, {
       method,
       headers,
-      body: body ? JSON.stringify(body) : undefined
+      body: body ? JSON.stringify(body) : undefined,
+      signal: controller.signal
     });
 
     if (res.status === 401) {
@@ -32,13 +36,19 @@ async function request(method, endpoint, body = null) {
     }
     return data;
   } catch (err) {
+    if (err.name === 'AbortError') {
+      console.error('Request timed out', method, endpoint);
+      return { success: false, message: 'Request timed out' };
+    }
     console.error('Network error', method, endpoint, err);
     return { success: false, message: 'Network error' };
+  } finally {
+    clearTimeout(timer);
   }
 }
 
 const api = {
-  get: (endpoint) => request('GET', endpoint),
+  get: (endpoint, timeoutMs) => request('GET', endpoint, null, timeoutMs),
   post: (endpoint, body) => request('POST', endpoint, body),
   put: (endpoint, body) => request('PUT', endpoint, body),
   delete: (endpoint) => request('DELETE', endpoint),
@@ -46,11 +56,16 @@ const api = {
 };
 
 async function preloadData() {
+  // Short timeout on the initial boot fetch — a cold backend (e.g. Render free-tier
+  // spin-up) can take a minute or more, but the app must render with mock data well
+  // before that so a visitor is never stuck looking at a blank page. Pages that need
+  // fresher data can always re-fetch after the first render.
+  const BOOT_TIMEOUT_MS = 8000;
   const [svcRes, staffRes, prodRes, reviewRes] = await Promise.all([
-    api.get('/services'),
-    api.get('/staff'),
-    api.get('/products'),
-    api.get('/reviews')
+    api.get('/services', BOOT_TIMEOUT_MS),
+    api.get('/staff', BOOT_TIMEOUT_MS),
+    api.get('/products', BOOT_TIMEOUT_MS),
+    api.get('/reviews', BOOT_TIMEOUT_MS)
   ]);
 
   setServices(svcRes && svcRes.success ? svcRes.services : (typeof MOCK_SERVICES !== 'undefined' ? MOCK_SERVICES : []));

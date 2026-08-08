@@ -157,10 +157,35 @@
 /* Shop page */
 .shop-layout { grid-template-columns: 260px 1fr; align-items: start; }
 @media (max-width: 900px) { .shop-layout { grid-template-columns: 1fr; } }
-.shop-sidebar { background: var(--color-surface); border: 1px solid var(--color-border); border-radius: var(--radius-lg); padding: var(--space-5); position: sticky; top: calc(var(--header-height, 76px) + var(--space-4)); }
+.shop-sidebar { background: var(--color-surface); border: 1px solid var(--color-border); border-radius: var(--radius-lg); padding: var(--space-5); position: sticky; top: calc(var(--header-height, 76px) + var(--space-4)); box-shadow: var(--shadow-sm); }
 @media (max-width: 900px) { .shop-sidebar { position: static; } }
+.shop-sidebar .form-label { color: var(--color-charcoal); }
+@media (prefers-color-scheme: dark) { .shop-sidebar .form-label { color: var(--color-text); } }
 .shop-toolbar { margin-bottom: var(--space-5); justify-content: space-between; }
 .shop-sort-select { max-width: 220px; }
+
+/* Promo banner — top of shop page, honest real facts only (free shipping threshold etc.) */
+.shop-promo-banner {
+  display: flex; align-items: center; gap: var(--space-3); flex-wrap: wrap;
+  background: var(--gradient-shop); color: #fff; border-radius: var(--radius-lg);
+  padding: var(--space-4) var(--space-6); margin-bottom: var(--space-6);
+  box-shadow: 0 6px 18px rgba(255,77,46,.22); font-weight: 600;
+}
+.shop-promo-banner strong { font-family: var(--font-serif); font-size: 1.05rem; }
+.shop-promo-banner span.sep { opacity: .55; }
+
+/* Category icon strip — Daraz-style visual category picker above the sidebar */
+.shop-category-strip { display: flex; gap: var(--space-3); flex-wrap: wrap; margin-bottom: var(--space-6); }
+.shop-category-pill {
+  display: flex; flex-direction: column; align-items: center; gap: 6px; min-width: 84px;
+  padding: var(--space-3) var(--space-4); border-radius: var(--radius-lg);
+  background: var(--color-surface); border: 1.5px solid var(--color-border);
+  cursor: pointer; transition: border-color var(--t-fast), transform var(--t-fast), box-shadow var(--t-fast);
+  font-size: .78rem; font-weight: 700; color: var(--color-text);
+}
+.shop-category-pill .icon { font-size: 1.5rem; }
+.shop-category-pill:hover { transform: translateY(-2px); box-shadow: var(--shadow-md); }
+.shop-category-pill.active { border-color: var(--color-shop); background: var(--color-shop-bg); color: var(--color-shop-dark); }
 
 /* Grids */
 .grid-2, .grid-3, .grid-4, .grid-6 { display: grid; gap: var(--space-6); }
@@ -170,3 +195,7 @@
 .grid-6 { grid-template-columns: repeat(6, 1fr); }
 @media (max-width: 1023px) { .grid-3, .grid-4 { grid-template-columns: repeat(2, 1fr); } .grid-6 { grid-template-columns: repeat(3,1fr);} }
 @media (max-width: 640px) { .grid-2, .grid-3, .grid-4 { grid-template-columns: 1fr; } .grid-6 { grid-template-columns: repeat(2,1fr);} }
+
+/* Product grid density — tighter gap for a punchier marketplace feel */
+#shop-grid.grid-3 { gap: var(--space-4); }
+@media (min-width: 1024px) { #shop-grid.grid-3 { grid-template-columns: repeat(3, 1fr); } }

@@ -46,7 +46,7 @@ async function renderProduct(id) {
             <p class="product-info-brand mt-2">${p.brand || ''}</p>
             <h1>${p.name}</h1>
             <div class="mt-2">${stars(p.rating)} <span class="text-muted">(${p.reviewCount} reviews)</span></div>
-            <p class="card-price product-info-price mt-3" id="product-price"></p>
+            <div class="mt-3" id="product-price"></div>
 
             <div class="mt-6">
               <div class="product-options-label">Options</div>
@@ -66,9 +66,10 @@ async function renderProduct(id) {
                 <span id="qty-display">1</span>
                 <button id="qty-inc">+</button>
               </div>
-              <button class="btn btn-primary btn-lg" id="add-to-cart-btn">Add to Cart</button>
+              <button class="btn btn-shop btn-lg" id="add-to-cart-btn">Add to Cart</button>
               <button class="btn btn-lg btn-buy-now" id="buy-now-btn">Buy Now</button>
             </div>
+            <p class="pdp-trust-row mt-3">🔒 Secure checkout &nbsp;•&nbsp; 🚚 Free shipping over ${formatMoney(CONFIG.FREE_SHIPPING_THRESHOLD)}</p>
 
             <div class="tabs mt-8" id="product-tabs">
               <button class="tab-btn active" data-tab="desc">Description</button>
@@ -91,7 +92,13 @@ async function renderProduct(id) {
   `;
 
   function updatePriceDisplay() {
-    document.getElementById('product-price').textContent = formatMoney(p.variants[activeVariant].price);
+    const v = p.variants[activeVariant];
+    const onSale = !!p.originalPrice && p.originalPrice > v.price;
+    const discountPct = onSale ? Math.round(((p.originalPrice - v.price) / p.originalPrice) * 100) : 0;
+    document.getElementById('product-price').innerHTML = `
+      <span class="product-info-price">${formatMoney(v.price)}</span>
+      ${onSale ? `<span class="pdp-old-price">${formatMoney(p.originalPrice)}</span><span class="pdp-savings-badge">Save ${discountPct}%</span>` : ''}
+    `;
   }
   updatePriceDisplay();
 

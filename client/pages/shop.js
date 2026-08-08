@@ -1,4 +1,8 @@
 const SHOP_PAGE_SIZE = 9;
+const SHOP_CATEGORY_ICONS = {
+  'Hair Care': '💇', 'Hair': '💇', 'Skin Care': '🧴', 'Skin': '🧴',
+  'Nail Care': '💅', 'Nails': '💅', 'Tools': '🛠️', 'Massage': '💆', 'Package': '🎁'
+};
 
 function renderShop() {
   const root = document.getElementById('page-root');
@@ -8,6 +12,23 @@ function renderShop() {
   root.innerHTML = `
     <section class="page-section">
       <div class="section-heading"><h1>Shop</h1></div>
+      <div class="shop-promo-banner">
+        <span>🚚 <strong>Free shipping</strong> on orders over ${formatMoney(CONFIG.FREE_SHIPPING_THRESHOLD)}</span>
+        <span class="sep">|</span>
+        <span>🔒 Secure checkout via Stripe</span>
+        <span class="sep">|</span>
+        <span>✨ Curated professional salon products</span>
+      </div>
+      <div class="shop-category-strip" id="shop-category-strip">
+        <div class="shop-category-pill ${!STATE.shopFilters.categories.length ? 'active' : ''}" data-cat="">
+          <span class="icon">🛍️</span><span>All</span>
+        </div>
+        ${categories.map(c => `
+          <div class="shop-category-pill ${STATE.shopFilters.categories.includes(c) ? 'active' : ''}" data-cat="${escapeHtml(c)}">
+            <span class="icon">${SHOP_CATEGORY_ICONS[c] || '🏷️'}</span><span>${escapeHtml(c)}</span>
+          </div>
+        `).join('')}
+      </div>
       <div class="grid-2 shop-layout">
         <aside class="shop-sidebar">
           <div class="form-group">
@@ -159,6 +180,24 @@ function renderShop() {
     const cats = qsa('.shop-cat-cb:checked', root).map(c => c.value);
     STATE.shopFilters.categories = cats;
     STATE.shopPage = 1;
+    syncCategoryStrip();
+    renderGrid();
+  }));
+
+  function syncCategoryStrip() {
+    qsa('.shop-category-pill', root).forEach(pill => {
+      const cat = pill.dataset.cat;
+      const isActive = cat === '' ? !STATE.shopFilters.categories.length : STATE.shopFilters.categories.includes(cat);
+      pill.classList.toggle('active', isActive);
+    });
+    qsa('.shop-cat-cb', root).forEach(cb => { cb.checked = STATE.shopFilters.categories.includes(cb.value); });
+  }
+
+  qsa('.shop-category-pill', root).forEach(pill => pill.addEventListener('click', () => {
+    const cat = pill.dataset.cat;
+    STATE.shopFilters.categories = cat ? [cat] : [];
+    STATE.shopPage = 1;
+    syncCategoryStrip();
     renderGrid();
   }));
   qs('#shop-max-price', root).addEventListener('input', (e) => {

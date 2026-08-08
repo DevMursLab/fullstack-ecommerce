@@ -33,6 +33,16 @@
   --gradient-accent: linear-gradient(135deg, var(--color-accent) 0%, var(--color-rose) 100%);
   --gradient-dark: linear-gradient(135deg, #2a2320 0%, #4a2f36 100%);
 
+  /* Shopping / commerce accent — bold saturated orange-red used specifically for
+     discount badges, primary shopping CTAs (Add to Cart / Buy Now), urgency
+     messaging, and price emphasis. Deliberately distinct from the warm gold/rose
+     brand palette so it reads as "shopping energy" layered on top of "Lumière". */
+  --color-shop: #ff4d2e;
+  --color-shop-dark: #d63a1c;
+  --color-shop-light: #ffe1d8;
+  --color-shop-bg: #fff1ed;
+  --gradient-shop: linear-gradient(135deg, #ff4d2e 0%, #ff7a3d 100%);
+
   --color-success: #4c8b5f;
   --color-success-bg: #e6f2e9;
   --color-error: #c1493f;
@@ -125,6 +135,11 @@
     --color-teal-light: #1f3a35;
     --color-coral-light: #3f2a20;
     --color-rose-light: #3f2530;
+
+    --color-shop: #ff6b45;
+    --color-shop-dark: #ff8f6b;
+    --color-shop-light: #4a2418;
+    --color-shop-bg: #2e1712;
 
     --gradient-hero: var(--gradient-dark);
   }

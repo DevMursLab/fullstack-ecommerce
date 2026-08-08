@@ -24,10 +24,11 @@ function renderCartPageBody() {
 
   if (!STATE.cart.length) {
     container.innerHTML = `
-      <div class="empty-state">
-        <div class="empty-state-icon">🛍️</div>
-        <p>Your cart is empty.</p>
-        <a href="#/shop" class="btn btn-primary mt-4">Continue Shopping</a>
+      <div class="empty-state cart-empty-state">
+        <div class="empty-state-icon cart-empty-icon">🛍️</div>
+        <h3>Your cart is empty</h3>
+        <p class="text-muted mt-2">Looks like you haven't added anything yet. Explore our salon-grade haircare, skincare, nailcare &amp; tools.</p>
+        <a href="#/shop" class="btn btn-shop btn-lg mt-6">Start Shopping</a>
       </div>
     `;
     return;
@@ -37,21 +38,26 @@ function renderCartPageBody() {
   const threshold = CONFIG.FREE_SHIPPING_THRESHOLD;
   const progress = Math.min(100, Math.round((subtotal / threshold) * 100));
   const remaining = Math.max(0, threshold - subtotal);
+  const qualifies = remaining === 0;
+  const itemCount = STATE.cart.reduce((sum, i) => sum + i.qty, 0);
 
   const totals = typeof getCheckoutTotals === 'function' ? getCheckoutTotals() : {
     subtotal, discount: 0, shipping: getShippingCost(0), tax: 0, total: subtotal + getShippingCost(0)
   };
 
   container.innerHTML = `
-    <div class="cart-page-layout" style="display:grid;grid-template-columns:1fr 360px;gap:var(--space-8);align-items:start;">
+    <div class="cart-page-layout">
       <div>
-        <div class="free-ship-bar">
+        <div class="free-ship-bar ${qualifies ? 'qualified' : ''}">
           <div class="progress-bar"><div class="progress-bar-fill" style="width:${progress}%"></div></div>
-          <p>${remaining > 0 ? `Add ${formatMoney(remaining)} more for free shipping!` : 'You qualify for free shipping!'}</p>
+          <p>${qualifies ? '✓ You’ve unlocked free shipping!' : `🚚 Add ${formatMoney(remaining)} more for free shipping!`}</p>
         </div>
-        <div id="cart-items-list" class="mt-6"></div>
+        <div class="cart-items-header">
+          <h3>${itemCount} item${itemCount !== 1 ? 's' : ''} in your cart</h3>
+        </div>
+        <div id="cart-items-list" class="mt-3"></div>
       </div>
-      <aside class="wizard-summary">
+      <aside class="cart-summary-card">
         <h3>Order Summary</h3>
         <div class="form-group mt-4">
           <label class="form-label">Coupon Code</label>
@@ -62,12 +68,16 @@ function renderCartPageBody() {
           <p id="cart-coupon-msg" class="mt-2" style="font-size:.85rem;"></p>
         </div>
         <div class="summary-line"><span>Subtotal</span><span>${formatMoney(totals.subtotal)}</span></div>
-        ${totals.discount ? `<div class="summary-line"><span>Discount</span><span>-${formatMoney(totals.discount)}</span></div>` : ''}
+        ${totals.discount ? `<div class="summary-line summary-discount"><span>Discount</span><span>-${formatMoney(totals.discount)}</span></div>` : ''}
         <div class="summary-line"><span>Shipping</span><span>${totals.shipping === 0 ? 'Free' : formatMoney(totals.shipping)}</span></div>
         ${totals.tax ? `<div class="summary-line"><span>Tax</span><span>${formatMoney(totals.tax)}</span></div>` : ''}
-        <div class="summary-line total"><span>Total</span><span>${formatMoney(totals.total)}</span></div>
-        <a href="#/checkout" class="btn btn-primary btn-block mt-4">Proceed to Checkout</a>
+        <div class="summary-line total cart-total-line"><span>Total</span><span>${formatMoney(totals.total)}</span></div>
+        <a href="#/checkout" class="btn btn-shop btn-lg btn-block mt-4">Proceed to Checkout →</a>
         <a href="#/shop" class="btn btn-outline btn-block mt-2">Continue Shopping</a>
+        <div class="cart-trust-row">
+          <span>🔒 Secure checkout</span>
+          <span>💳 Powered by Stripe</span>
+        </div>
       </aside>
     </div>
   `;
@@ -95,23 +105,26 @@ function renderCartItemsList() {
   const list = document.getElementById('cart-items-list');
   if (!list) return;
   list.innerHTML = STATE.cart.map(item => `
-    <div class="cart-item" style="display:flex;gap:var(--space-3);padding:var(--space-4) 0;border-bottom:1px solid var(--color-border);">
-      <div class="cart-item-img" style="width:80px;height:80px;border-radius:var(--radius-md);background:var(--color-border);overflow:hidden;flex-shrink:0;">
-        <img src="${item.image}" alt="${item.name}" style="width:100%;height:100%;object-fit:cover;" onerror="this.style.display='none'">
+    <div class="cart-item-row">
+      <div class="cart-item-img">
+        <img src="${item.image}" alt="${escapeHtml(item.name)}" onerror="this.parentElement.innerHTML='<div class=&quot;placeholder-icon&quot;>🛍️</div>'">
       </div>
-      <div class="flex-1">
-        <strong>${item.name}</strong>
-        <p class="text-muted" style="font-size:.85rem;">${item.variantName}</p>
-        <div class="flex items-center gap-4 mt-2">
+      <div class="cart-item-info">
+        <strong class="cart-item-name">${escapeHtml(item.name)}</strong>
+        <p class="cart-item-variant">${escapeHtml(item.variantName || '')}</p>
+        <div class="cart-item-controls">
           <div class="qty-stepper">
-            <button data-action="dec" data-key="${item.key}">−</button>
+            <button data-action="dec" data-key="${item.key}" aria-label="Decrease quantity">−</button>
             <span>${item.qty}</span>
-            <button data-action="inc" data-key="${item.key}">+</button>
+            <button data-action="inc" data-key="${item.key}" aria-label="Increase quantity">+</button>
           </div>
-          <button data-action="remove" data-key="${item.key}" style="color:var(--color-error);font-size:.85rem;">Remove</button>
+          <button class="cart-item-remove" data-action="remove" data-key="${item.key}">Remove</button>
         </div>
       </div>
-      <strong>${formatMoney(item.price * item.qty)}</strong>
+      <div class="cart-item-total">
+        <strong>${formatMoney(item.price * item.qty)}</strong>
+        ${item.qty > 1 ? `<span class="cart-item-unit-price">${formatMoney(item.price)} each</span>` : ''}
+      </div>
     </div>
   `).join('');
 

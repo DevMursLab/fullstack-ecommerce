@@ -226,7 +226,7 @@ function renderMenuDrawer() {
       <div class="logo">${CONFIG.APP_NAME}</div>
       <button class="modal-close" id="menu-drawer-close" aria-label="Close">✕</button>
     </div>
-    <nav class="main-nav" style="flex-direction:column;align-items:flex-start;gap:1rem;padding:1rem;">
+    <nav class="drawer-nav">
       <a href="#/" class="nav-link">Home</a>
       <a href="#/services" class="nav-link">Services</a>
       <a href="#/team" class="nav-link">Team</a>

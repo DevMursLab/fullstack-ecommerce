@@ -70,7 +70,8 @@ table { border-collapse: collapse; width: 100%; }
 .w-full { width: 100%; }
 
 /* Scroll reveal animation */
-.scroll-reveal, .reveal { opacity: 0; transform: translateY(24px); transition: opacity var(--t-slow), transform var(--t-slow); }
+.scroll-reveal, .reveal { opacity: 1; transform: none; transition: opacity var(--t-slow), transform var(--t-slow); }
+.js-reveal-ready .scroll-reveal, .js-reveal-ready .reveal { opacity: 0; transform: translateY(24px); }
 .scroll-reveal.revealed, .reveal.revealed { opacity: 1; transform: translateY(0); }
 
 /* Responsive breakpoints reference:

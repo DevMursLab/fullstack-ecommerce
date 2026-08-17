@@ -108,6 +108,7 @@ function afterRouteRender(pathPart) {
       link.classList.toggle('active', dataPath === pathPart);
     }
   });
+  if (typeof observeScrollReveal === 'function') observeScrollReveal();
 }
 
 window.addEventListener('hashchange', router);
@@ -142,10 +143,8 @@ if (typeof observeScrollReveal !== 'function') {
   window.observeScrollReveal = function observeScrollReveal() {
     const els = document.querySelectorAll('.scroll-reveal:not(.revealed), .reveal:not(.revealed)');
     if (!els.length) return;
-    if (!('IntersectionObserver' in window)) {
-      els.forEach(el => el.classList.add('revealed'));
-      return;
-    }
+    if (!('IntersectionObserver' in window)) return;
+    document.body.classList.add('js-reveal-ready');
     const observer = new IntersectionObserver((entries) => {
       entries.forEach(entry => {
         if (entry.isIntersecting) {

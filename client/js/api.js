@@ -18,7 +18,7 @@ async function request(method, endpoint, body = null, timeoutMs = 15000) {
       signal: controller.signal
     });
 
-    if (res.status === 401) {
+    if (res.status === 401 && endpoint !== '/auth/login') {
       STATE.token = null;
       STATE.user = null;
       STATE.isLoggedIn = false;
@@ -60,7 +60,7 @@ async function preloadData() {
   // spin-up) can take a minute or more, but the app must render with mock data well
   // before that so a visitor is never stuck looking at a blank page. Pages that need
   // fresher data can always re-fetch after the first render.
-  const BOOT_TIMEOUT_MS = 8000;
+  const BOOT_TIMEOUT_MS = 20000;
   const [svcRes, staffRes, prodRes, reviewRes] = await Promise.all([
     api.get('/services', BOOT_TIMEOUT_MS),
     api.get('/staff', BOOT_TIMEOUT_MS),

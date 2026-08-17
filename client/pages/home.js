@@ -144,7 +144,7 @@ function renderHome() {
     if (p) {
       addToCart(p, p.variants[0], 1);
       renderHeader();
-      if (typeof renderCartDrawer === 'function') renderCartDrawer();
+      if (typeof openCartDrawer === 'function') openCartDrawer();
       showToast('Added to cart', 'success');
     }
   }));

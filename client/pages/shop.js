@@ -129,7 +129,7 @@ function renderShop() {
       if (p) {
         addToCart(p, p.variants[0], 1);
         renderHeader();
-        renderCartDrawer();
+        openCartDrawer();
         showToast('Added to cart', 'success');
       }
     }));
@@ -163,9 +163,9 @@ function renderShop() {
       if (variant.stock <= 0) { showToast('This variant is out of stock', 'error'); return; }
       addToCart(p, variant, 1);
       renderHeader();
-      renderCartDrawer();
-      showToast('Added to cart', 'success');
       closeModal();
+      openCartDrawer();
+      showToast('Added to cart', 'success');
     });
   }
 

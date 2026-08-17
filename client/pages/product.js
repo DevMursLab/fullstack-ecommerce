@@ -171,7 +171,7 @@ async function renderProduct(id) {
     } else {
       addToCart(p, variant, qty);
       renderHeader();
-      if (typeof renderCartDrawer === 'function') renderCartDrawer();
+      if (typeof openCartDrawer === 'function') openCartDrawer();
       showToast(`${p.name} added to cart.`, 'success');
     }
     return true;

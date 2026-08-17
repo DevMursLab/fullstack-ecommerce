@@ -85,7 +85,7 @@ function addProductToCart(product, variantName, qty = 1) {
   const cartItem = STATE.cart.find(i => i.key === key);
   if (cartItem) cartItem.variantId = variant._id || null;
   if (typeof renderHeader === 'function') renderHeader();
-  if (typeof renderCartDrawer === 'function') renderCartDrawer();
+  if (typeof openCartDrawer === 'function') openCartDrawer();
   showToast(`${product.name} added to cart.`, 'success');
   return true;
 }

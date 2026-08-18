@@ -1,13 +1,26 @@
-<svg xmlns="http://www.w3.org/2000/svg" width="640" height="480" viewBox="0 0 640 480">
+<svg xmlns="http://www.w3.org/2000/svg" width="800" height="600" viewBox="0 0 800 600">
   <defs>
-    <linearGradient id="ggyuznf" x1="0%" y1="0%" x2="100%" y2="100%">
-      <stop offset="0%" stop-color="#f5e6c8"/>
-      <stop offset="100%" stop-color="#e4c88a"/>
+    <linearGradient id="gColoring" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#ff6b3d"/><stop offset="50%" stop-color="#ff2fa0"/><stop offset="100%" stop-color="#7c3aed"/>
     </linearGradient>
+    <radialGradient id="gColoringglow" cx="50%" cy="35%" r="60%">
+      <stop offset="0%" stop-color="#ffffff" stop-opacity="0.35"/>
+      <stop offset="100%" stop-color="#ffffff" stop-opacity="0"/>
+    </radialGradient>
+    <filter id="gColoringsoft" x="-50%" y="-50%" width="200%" height="200%">
+      <feGaussianBlur stdDeviation="18"/>
+    </filter>
   </defs>
-  <rect width="640" height="480" fill="url(#ggyuznf)"/>
-  <circle cx="544" cy="72" r="134.4" fill="#ffffff" opacity="0.12"/>
-  <circle cx="64" cy="432" r="105.6" fill="#ffffff" opacity="0.10"/>
-  <text x="50%" y="246" text-anchor="middle" font-family="Georgia, 'Playfair Display', serif" font-size="28" fill="#3a2e28" font-weight="600">Hair Coloring</text>
-  <text x="50%" y="456" text-anchor="middle" font-family="Inter, sans-serif" font-size="13" letter-spacing="2" fill="#3a2e28" opacity="0.55">LUMIÈRE SALON &amp; SPA</text>
+  <rect width="800" height="600" fill="url(#gColoring)"/>
+  <circle cx="120" cy="500" r="140" fill="#ffffff" opacity="0.10" filter="url(#gColoringsoft)"/>
+  <circle cx="700" cy="80" r="120" fill="#ffffff" opacity="0.12" filter="url(#gColoringsoft)"/>
+  <circle cx="400" cy="260" r="260" fill="url(#gColoringglow)"/>
+  <circle cx="400" cy="250" r="150" fill="#ffffff" opacity="0.16"/>
+  <g transform="translate(400,250)">
+    <path d="M-60,-40 C-60,-90 60,-90 60,-40 C60,10 20,30 0,90 C-20,30 -60,10 -60,-40 Z" fill="#ffffff" opacity="0.95"/>
+    <circle cx="-90" cy="30" r="18" fill="#ffe1f4"/>
+    <circle cx="95" cy="-10" r="14" fill="#ffd9ee"/>
+    <circle cx="70" cy="80" r="10" fill="#ffffff" opacity="0.8"/>
+  </g>
+  <text x="50%" y="530" text-anchor="middle" font-family="'Playfair Display', Georgia, serif" font-size="34" fill="#ffffff" font-weight="700">Hair Coloring</text>
 </svg>

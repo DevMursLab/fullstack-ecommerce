@@ -106,11 +106,11 @@ function renderCartItemsList() {
   if (!list) return;
   list.innerHTML = STATE.cart.map(item => `
     <div class="cart-item-row">
-      <div class="cart-item-img">
+      <a class="cart-item-img" href="#/product/${item.productId}">
         <img src="${item.image}" alt="${escapeHtml(item.name)}" onerror="this.parentElement.innerHTML='<div class=&quot;placeholder-icon&quot;>🛍️</div>'">
-      </div>
+      </a>
       <div class="cart-item-info">
-        <strong class="cart-item-name">${escapeHtml(item.name)}</strong>
+        <a href="#/product/${item.productId}" class="cart-item-name">${escapeHtml(item.name)}</a>
         <p class="cart-item-variant">${escapeHtml(item.variantName || '')}</p>
         <div class="cart-item-controls">
           <div class="qty-stepper">

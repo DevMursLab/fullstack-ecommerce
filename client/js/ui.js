@@ -124,9 +124,9 @@ function renderFooter() {
 function cartDrawerItemHtml(item) {
   return `
     <div class="cart-drawer-item" data-key="${item.key}">
-      <img src="${item.image}" alt="${item.name}" onerror="this.style.opacity=0">
+      <a href="#/product/${item.productId}"><img src="${item.image}" alt="${item.name}" onerror="this.style.opacity=0"></a>
       <div class="cart-drawer-item-info">
-        <div class="name">${item.name}</div>
+        <a href="#/product/${item.productId}" class="name">${item.name}</a>
         <div class="variant">${item.variantName}</div>
         <div class="qty-control">
           <button class="btn-icon qty-dec" data-key="${item.key}">−</button>
@@ -208,6 +208,7 @@ function renderCartDrawer() {
   if (viewBtn) viewBtn.addEventListener('click', () => closeCartDrawer());
   const checkoutBtn = qs('#cart-drawer-checkout', drawer);
   if (checkoutBtn) checkoutBtn.addEventListener('click', () => closeCartDrawer());
+  qsa('.cart-drawer-item a', drawer).forEach(a => a.addEventListener('click', () => closeCartDrawer()));
 }
 
 function renderMenuDrawer() {

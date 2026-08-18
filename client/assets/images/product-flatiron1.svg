@@ -1,13 +1,29 @@
 <svg xmlns="http://www.w3.org/2000/svg" width="480" height="480" viewBox="0 0 480 480">
   <defs>
-    <linearGradient id="gj6p9fe" x1="0%" y1="100%" x2="100%" y2="0%">
-      <stop offset="0%" stop-color="#ece0f4"/>
-      <stop offset="100%" stop-color="#cfb0e6"/>
+    <radialGradient id="bg" cx="50%" cy="32%" r="75%">
+      <stop offset="0%" stop-color="#fff2d6"/>
+      <stop offset="55%" stop-color="#ffe1a8"/>
+      <stop offset="100%" stop-color="#ffcf7a"/>
+    </radialGradient>
+    <linearGradient id="body" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#ffb703"/>
+      <stop offset="55%" stop-color="#ffd166"/>
+      <stop offset="100%" stop-color="#c97a00"/>
+    </linearGradient>
+    <linearGradient id="cap" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#ff3d1f"/>
+      <stop offset="100%" stop-color="#b8280f"/>
     </linearGradient>
   </defs>
-  <rect width="480" height="480" fill="url(#gj6p9fe)"/>
-  <rect x="172.79999999999998" y="86.39999999999999" width="134.4" height="230.39999999999998" rx="14" fill="#ffffff" opacity="0.55"/>
-  <rect x="201.6" y="57.599999999999994" width="76.8" height="48" rx="6" fill="#ffffff" opacity="0.7"/>
-  <text x="50%" y="232.2" text-anchor="middle" font-family="Inter, sans-serif" font-size="22" fill="#3a2e28" font-weight="600">Ceramic Flat</text>
-    <text x="50%" y="258.2" text-anchor="middle" font-family="Inter, sans-serif" font-size="22" fill="#3a2e28" font-weight="600">Iron</text>
+  <rect width="480" height="480" fill="url(#bg)"/>
+  <ellipse cx="240" cy="400" rx="120" ry="18" fill="#2a1440" opacity="0.16"/>
+  <g>
+    <rect x="140" y="210" width="200" height="34" rx="17" fill="url(#body)"/>
+    <rect x="150" y="196" width="180" height="20" rx="10" fill="url(#cap)"/>
+    <rect x="230" y="244" width="20" height="90" rx="10" fill="url(#cap)" transform="rotate(10 240 290)"/>
+    <rect x="150" y="216" width="180" height="8" fill="#ffffff" opacity="0.3"/>
+  </g>
+  <rect x="150" y="360" width="180" height="60" rx="8" fill="#ffffff" opacity="0.92"/>
+  <text x="240" y="380" text-anchor="middle" font-family="Georgia, 'Playfair Display', serif" font-size="16" fill="#a85d00" font-weight="700">Ceramic</text>
+  <text x="240" y="402" text-anchor="middle" font-family="Georgia, 'Playfair Display', serif" font-size="16" fill="#a85d00" font-weight="700">Flat Iron</text>
 </svg>

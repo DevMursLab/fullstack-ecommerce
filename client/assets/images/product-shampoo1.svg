@@ -1,13 +1,27 @@
 <svg xmlns="http://www.w3.org/2000/svg" width="480" height="480" viewBox="0 0 480 480">
   <defs>
-    <linearGradient id="gh9fsia" x1="0%" y1="100%" x2="100%" y2="0%">
-      <stop offset="0%" stop-color="#f4e0e6"/>
-      <stop offset="100%" stop-color="#e2b4c4"/>
+    <radialGradient id="bgS1" cx="50%" cy="32%" r="75%">
+      <stop offset="0%" stop-color="#ffe1f4"/>
+      <stop offset="55%" stop-color="#f3d2ff"/>
+      <stop offset="100%" stop-color="#e0c9ff"/>
+    </radialGradient>
+    <linearGradient id="bottleS1" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#ff2fa0"/>
+      <stop offset="55%" stop-color="#ff6bc4"/>
+      <stop offset="100%" stop-color="#c8127a"/>
+    </linearGradient>
+    <linearGradient id="capS1" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#7c3aed"/>
+      <stop offset="100%" stop-color="#3a1b7a"/>
     </linearGradient>
   </defs>
-  <rect width="480" height="480" fill="url(#gh9fsia)"/>
-  <rect x="172.79999999999998" y="86.39999999999999" width="134.4" height="230.39999999999998" rx="14" fill="#ffffff" opacity="0.55"/>
-  <rect x="201.6" y="57.599999999999994" width="76.8" height="48" rx="6" fill="#ffffff" opacity="0.7"/>
-  <text x="50%" y="232.2" text-anchor="middle" font-family="Inter, sans-serif" font-size="22" fill="#3a2e28" font-weight="600">Argan Oil</text>
-    <text x="50%" y="258.2" text-anchor="middle" font-family="Inter, sans-serif" font-size="22" fill="#3a2e28" font-weight="600">Shampoo</text>
+  <rect width="480" height="480" fill="url(#bgS1)"/>
+  <ellipse cx="240" cy="400" rx="120" ry="18" fill="#3a1b5c" opacity="0.18"/>
+  <rect x="196" y="100" width="88" height="26" rx="6" fill="url(#capS1)"/>
+  <rect x="204" y="80" width="72" height="26" rx="8" fill="url(#capS1)"/>
+  <path d="M182 126 h116 a14 14 0 0 1 14 14 v220 a20 20 0 0 1 -20 20 h-104 a20 20 0 0 1 -20 -20 v-220 a14 14 0 0 1 14 -14 z" fill="url(#bottleS1)"/>
+  <path d="M196 150 q6 120 -2 220" stroke="#ffffff" stroke-width="14" stroke-linecap="round" opacity="0.35" fill="none"/>
+  <rect x="196" y="230" width="88" height="70" rx="8" fill="#ffffff" opacity="0.92"/>
+  <text x="240" y="258" text-anchor="middle" font-family="Georgia, 'Playfair Display', serif" font-size="17" fill="#c8127a" font-weight="700">Argan Oil</text>
+  <text x="240" y="280" text-anchor="middle" font-family="Georgia, 'Playfair Display', serif" font-size="17" fill="#c8127a" font-weight="700">Shampoo</text>
 </svg>

@@ -1,14 +1,27 @@
 <svg xmlns="http://www.w3.org/2000/svg" width="480" height="480" viewBox="0 0 480 480">
   <defs>
-    <linearGradient id="grsiv5d" x1="0%" y1="100%" x2="100%" y2="0%">
-      <stop offset="0%" stop-color="#d8ecec"/>
-      <stop offset="100%" stop-color="#a6d0d0"/>
+    <radialGradient id="bg" cx="50%" cy="32%" r="75%">
+      <stop offset="0%" stop-color="#fff2d6"/>
+      <stop offset="55%" stop-color="#ffe1a8"/>
+      <stop offset="100%" stop-color="#ffcf7a"/>
+    </radialGradient>
+    <linearGradient id="body" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#ffb703"/>
+      <stop offset="55%" stop-color="#ffd166"/>
+      <stop offset="100%" stop-color="#c97a00"/>
+    </linearGradient>
+    <linearGradient id="cap" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#ff3d1f"/>
+      <stop offset="100%" stop-color="#b8280f"/>
     </linearGradient>
   </defs>
-  <rect width="480" height="480" fill="url(#grsiv5d)"/>
-  <rect x="172.79999999999998" y="86.39999999999999" width="134.4" height="230.39999999999998" rx="14" fill="#ffffff" opacity="0.55"/>
-  <rect x="201.6" y="57.599999999999994" width="76.8" height="48" rx="6" fill="#ffffff" opacity="0.7"/>
-  <text x="50%" y="219.2" text-anchor="middle" font-family="Inter, sans-serif" font-size="22" fill="#3a2e28" font-weight="600">Vitamin C</text>
-    <text x="50%" y="245.2" text-anchor="middle" font-family="Inter, sans-serif" font-size="22" fill="#3a2e28" font-weight="600">Brightening</text>
-    <text x="50%" y="271.2" text-anchor="middle" font-family="Inter, sans-serif" font-size="22" fill="#3a2e28" font-weight="600">Cream</text>
+  <rect width="480" height="480" fill="url(#bg)"/>
+  <ellipse cx="240" cy="400" rx="120" ry="18" fill="#2a1440" opacity="0.16"/>
+  <ellipse cx="240" cy="140" rx="76" ry="16" fill="url(#cap)"/>
+  <rect x="164" y="140" width="152" height="18" rx="6" fill="url(#cap)"/>
+  <path d="M176 158 h128 v170 a24 24 0 0 1 -24 24 h-80 a24 24 0 0 1 -24 -24 z" fill="url(#body)"/>
+  <ellipse cx="215" cy="185" rx="18" ry="34" fill="#ffffff" opacity="0.3"/>
+  <rect x="196" y="250" width="88" height="70" rx="8" fill="#ffffff" opacity="0.92"/>
+  <text x="240" y="278" text-anchor="middle" font-family="Georgia, 'Playfair Display', serif" font-size="16" fill="#a85d00" font-weight="700">Vitamin C</text>
+  <text x="240" y="300" text-anchor="middle" font-family="Georgia, 'Playfair Display', serif" font-size="16" fill="#a85d00" font-weight="700">Brightening Cream</text>
 </svg>

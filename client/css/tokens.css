@@ -2,46 +2,54 @@
    Lumière Salon & Spa — Design Tokens
    ========================================================================== */
 :root {
-  /* Colors — warm neutral + charcoal + gold/rose accent */
-  --color-bg: #faf7f3;
+  /* Colors — vibrant marketplace base: crisp white surfaces, near-black text,
+     electric magenta/violet brand accent for a bold, glamorous, high-energy feel. */
+  --color-bg: #faf8fc;
   --color-bg-alt: #ffffff;
   --color-surface: #ffffff;
-  --color-charcoal: #201c1a;
-  --color-charcoal-soft: #362f2b;
-  --color-text: #26201d;
-  --color-text-muted: #7a716a;
-  --color-text-inverse: #f7f2ec;
-  --color-border: #e7ded3;
-  --color-border-strong: #d8cbb8;
+  --color-charcoal: #17141f;
+  --color-charcoal-soft: #2a2438;
+  --color-text: #1a1621;
+  --color-text-muted: #746e82;
+  --color-text-inverse: #ffffff;
+  --color-border: #ece7f5;
+  --color-border-strong: #d8cfec;
 
-  --color-accent: #c8863f;        /* gold */
-  --color-accent-dark: #9c661f;
-  --color-accent-light: #f3d9ab;
-  --color-rose: #d9738a;          /* rose secondary accent */
-  --color-rose-dark: #b2496a;
-  --color-rose-light: #f6d4dd;
+  --color-accent: #ff2fa0;         /* electric magenta — primary glam accent */
+  --color-accent-dark: #c8127a;
+  --color-accent-light: #ffd9ee;
+  --color-rose: #ff2fa0;           /* alias kept for existing usages */
+  --color-rose-dark: #c8127a;
+  --color-rose-light: #ffd9ee;
 
   /* Extra accents — used sparingly for category tags, gradients, highlights */
-  --color-plum: #8a5fb0;
-  --color-plum-light: #e6dbf3;
-  --color-teal: #2f9e8f;
-  --color-teal-light: #d6f0ec;
-  --color-coral: #e8734a;
-  --color-coral-light: #fbe0d4;
+  --color-plum: #7c3aed;
+  --color-plum-light: #ede4fe;
+  --color-teal: #06b6a8;
+  --color-teal-light: #d3f7f2;
+  --color-coral: #ff6b3d;
+  --color-coral-light: #ffe4d6;
 
-  --gradient-hero: linear-gradient(120deg, #f3d9ab 0%, #f6d4dd 45%, #e6dbf3 100%);
-  --gradient-accent: linear-gradient(135deg, var(--color-accent) 0%, var(--color-rose) 100%);
-  --gradient-dark: linear-gradient(135deg, #2a2320 0%, #4a2f36 100%);
+  --gradient-hero: linear-gradient(120deg, #ffe1f4 0%, #f3e0ff 45%, #e0e9ff 100%);
+  --gradient-accent: linear-gradient(135deg, #ff2fa0 0%, #7c3aed 100%);
+  --gradient-dark: linear-gradient(135deg, #1c1030 0%, #3a1440 100%);
+  --gradient-glam: linear-gradient(120deg, #ff2fa0 0%, #ff6b3d 50%, #ffb703 100%);
 
   /* Shopping / commerce accent — bold saturated orange-red used specifically for
      discount badges, primary shopping CTAs (Add to Cart / Buy Now), urgency
-     messaging, and price emphasis. Deliberately distinct from the warm gold/rose
+     messaging, and price emphasis. Deliberately distinct from the magenta/violet
      brand palette so it reads as "shopping energy" layered on top of "Lumière". */
-  --color-shop: #ff4d2e;
-  --color-shop-dark: #d63a1c;
+  --color-shop: #ff3d1f;
+  --color-shop-dark: #d92a10;
   --color-shop-light: #ffe1d8;
   --color-shop-bg: #fff1ed;
-  --gradient-shop: linear-gradient(135deg, #ff4d2e 0%, #ff7a3d 100%);
+  --gradient-shop: linear-gradient(135deg, #ff3d1f 0%, #ff9500 100%);
+
+  /* Glow shadows — used on primary CTAs, hero, and hover states for a glossy,
+     premium-marketplace pop rather than a flat matte look. */
+  --glow-accent: 0 8px 28px rgba(255, 47, 160, .35);
+  --glow-accent-lg: 0 16px 44px rgba(255, 47, 160, .4);
+  --glow-shop: 0 8px 24px rgba(255, 61, 31, .38);
 
   --color-success: #4c8b5f;
   --color-success-bg: #e6f2e9;
@@ -122,19 +130,25 @@
 
 @media (prefers-color-scheme: dark) {
   :root {
-    --color-bg: #1a1613;
-    --color-bg-alt: #211c19;
-    --color-surface: #241f1c;
-    --color-text: #f2ece4;
-    --color-text-muted: #b3a89c;
-    --color-border: #3a332d;
-    --color-border-strong: #4a4038;
-    --color-text-inverse: #f7f2ec;
+    --color-bg: #140f1c;
+    --color-bg-alt: #1b1526;
+    --color-surface: #211a2f;
+    --color-text: #f3eefc;
+    --color-text-muted: #b3a8c4;
+    --color-border: #362a4a;
+    --color-border-strong: #4a3a63;
+    --color-text-inverse: #ffffff;
 
-    --color-plum-light: #3a2f47;
-    --color-teal-light: #1f3a35;
+    --color-accent: #ff5cb8;
+    --color-accent-dark: #ff2fa0;
+    --color-accent-light: #4a1f3d;
+    --color-rose: #ff5cb8;
+    --color-rose-dark: #ff2fa0;
+    --color-rose-light: #4a1f3d;
+
+    --color-plum-light: #33224f;
+    --color-teal-light: #123a35;
     --color-coral-light: #3f2a20;
-    --color-rose-light: #3f2530;
 
     --color-shop: #ff6b45;
     --color-shop-dark: #ff8f6b;

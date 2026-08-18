@@ -10,15 +10,15 @@
   transition: background var(--t-fast), color var(--t-fast), border-color var(--t-fast), transform var(--t-fast), box-shadow var(--t-fast);
   white-space: nowrap;
 }
-.btn:active { transform: translateY(1px); }
-.btn-primary { background: var(--color-charcoal); color: var(--color-text-inverse); }
-.btn-primary:hover { background: var(--color-accent-dark); box-shadow: var(--shadow-md); }
-.btn-secondary { background: var(--gradient-accent); color: #fff; }
-.btn-secondary:hover { box-shadow: var(--shadow-md); filter: brightness(1.06); }
+.btn:active { transform: translateY(1px) scale(.98); }
+.btn-primary { background: var(--gradient-accent); color: #fff; box-shadow: var(--glow-accent); }
+.btn-primary:hover { box-shadow: var(--glow-accent-lg); filter: brightness(1.06); transform: translateY(-1px); }
+.btn-secondary { background: var(--gradient-accent); color: #fff; box-shadow: var(--glow-accent); }
+.btn-secondary:hover { box-shadow: var(--glow-accent-lg); filter: brightness(1.06); }
 /* Shopping CTA — bold, high-energy orange-red for conversion-critical actions
    (Add to Cart on product cards / PDP, Proceed to Checkout). */
-.btn-shop { background: var(--gradient-shop); color: #fff; box-shadow: 0 4px 14px rgba(255,77,46,.32); }
-.btn-shop:hover { filter: brightness(1.05); box-shadow: 0 6px 20px rgba(255,77,46,.42); transform: translateY(-1px); }
+.btn-shop { background: var(--gradient-shop); color: #fff; box-shadow: var(--glow-shop); }
+.btn-shop:hover { filter: brightness(1.05); box-shadow: 0 12px 32px rgba(255,61,31,.48); transform: translateY(-2px); }
 .btn-shop:disabled { background: var(--color-border); box-shadow: none; }
 .btn-outline { background: transparent; border: 1.5px solid var(--color-charcoal); color: var(--color-charcoal); }
 .btn-outline:hover { background: var(--color-charcoal); color: var(--color-text-inverse); }
@@ -47,10 +47,13 @@
 .service-card, .product-card, .staff-card {
   background: var(--color-surface); border: 1px solid var(--color-border);
   border-radius: var(--radius-lg); overflow: hidden; display: flex; flex-direction: column;
-  transition: transform var(--t-base), box-shadow var(--t-base);
+  transition: transform var(--t-base), box-shadow var(--t-base), border-color var(--t-base);
   cursor: pointer;
 }
-.service-card:hover, .product-card:hover, .staff-card:hover { transform: translateY(-4px); box-shadow: var(--shadow-lg); }
+.service-card:hover, .product-card:hover, .staff-card:hover {
+  transform: translateY(-6px); border-color: var(--color-accent-light);
+  box-shadow: 0 20px 40px rgba(255, 47, 160, .16), var(--shadow-lg);
+}
 .card-media { width: 100%; aspect-ratio: 4/3; background: linear-gradient(135deg, var(--color-border), var(--color-bg-alt)); overflow: hidden; position: relative; }
 .card-media img { width: 100%; height: 100%; object-fit: cover; }
 .card-body { padding: var(--space-4); display: flex; flex-direction: column; gap: var(--space-2); flex: 1; }
@@ -77,9 +80,9 @@
 /* Bold percentage-off ribbon badge, Daraz-style — the most eye-catching element on the media */
 .discount-badge {
   position: absolute; top: 0; right: var(--space-2); z-index: 2;
-  background: var(--color-shop); color: #fff; font-size: .78rem; font-weight: 800;
-  padding: 5px 9px 6px; border-radius: 0 0 var(--radius-sm) var(--radius-sm);
-  box-shadow: 0 3px 8px rgba(255,77,46,.35); letter-spacing: .01em;
+  background: var(--gradient-glam); color: #fff; font-size: .78rem; font-weight: 800;
+  padding: 5px 10px 6px; border-radius: 0 0 var(--radius-sm) var(--radius-sm);
+  box-shadow: 0 4px 12px rgba(255,61,31,.4); letter-spacing: .01em;
 }
 .product-card .card-body { padding: var(--space-3) var(--space-4) var(--space-4); gap: 5px; }
 .product-card .product-brand { font-size: var(--fs-xs, .75rem); text-transform: uppercase; letter-spacing: .06em; color: var(--color-text-muted); font-weight: 700; }
@@ -144,7 +147,7 @@ input[type=checkbox], input[type=radio] { width: 18px; height: 18px; accent-colo
 .badge-error { background: var(--color-error-bg); color: var(--color-error); }
 .badge-warning { background: var(--color-warning-bg); color: var(--color-warning); }
 .badge-info { background: var(--color-info-bg); color: var(--color-info); }
-.badge-sale { background: var(--color-rose); color: #fff; }
+.badge-sale { background: var(--gradient-glam); color: #fff; }
 .badge-plum { background: var(--color-plum-light); color: var(--color-plum); }
 .badge-teal { background: var(--color-teal-light); color: var(--color-teal); }
 .badge-coral { background: var(--color-coral-light); color: var(--color-coral); }
@@ -180,8 +183,8 @@ input[type=checkbox], input[type=radio] { width: 18px; height: 18px; accent-colo
 /* Toast */
 #toast-container { position: fixed; top: var(--space-5); right: var(--space-5); z-index: var(--z-toast); display: flex; flex-direction: column; gap: var(--space-2); max-width: 340px; }
 .toast {
-  background: var(--color-charcoal); color: #fff; padding: 14px 18px; border-radius: var(--radius-md);
-  box-shadow: var(--shadow-lg); font-size: .9rem; display: flex; align-items: center; gap: var(--space-2);
+  background: var(--gradient-accent); color: #fff; padding: 14px 18px; border-radius: var(--radius-md);
+  box-shadow: var(--glow-accent); font-size: .9rem; display: flex; align-items: center; gap: var(--space-2);
   animation: toastIn var(--t-base) forwards;
 }
 @keyframes toastIn { from { opacity: 0; transform: translateX(24px);} to { opacity: 1; transform: translateX(0);} }
@@ -206,7 +209,7 @@ input[type=checkbox], input[type=radio] { width: 18px; height: 18px; accent-colo
   min-width: 38px; height: 38px; border-radius: var(--radius-sm); border: 1px solid var(--color-border);
   display: flex; align-items: center; justify-content: center; font-weight: 600;
 }
-.pagination button.active { background: var(--color-charcoal); color: var(--color-text-inverse); border-color: var(--color-charcoal); }
+.pagination button.active { background: var(--gradient-accent); color: #fff; border-color: transparent; box-shadow: var(--glow-accent); }
 .pagination button:disabled { opacity: .4; }
 
 /* Tabs */
@@ -217,7 +220,7 @@ input[type=checkbox], input[type=radio] { width: 18px; height: 18px; accent-colo
 
 /* Progress bar */
 .progress-bar { height: 8px; border-radius: var(--radius-full); background: var(--color-border); overflow: hidden; }
-.progress-bar-fill { height: 100%; background: var(--color-accent); border-radius: var(--radius-full); transition: width var(--t-base); }
+.progress-bar-fill { height: 100%; background: var(--gradient-accent); border-radius: var(--radius-full); transition: width var(--t-base); }
 
 /* Step indicator (booking wizard) */
 .step-indicator { display: flex; align-items: center; justify-content: center; gap: var(--space-2); margin-bottom: var(--space-8); flex-wrap: wrap; }
@@ -228,7 +231,7 @@ input[type=checkbox], input[type=radio] { width: 18px; height: 18px; accent-colo
   transition: background var(--t-fast), color var(--t-fast);
 }
 .step-circle.done { background: var(--color-success); color: #fff; cursor: pointer; }
-.step-circle.active { background: var(--color-accent); color: #fff; }
+.step-circle.active { background: var(--gradient-accent); color: #fff; box-shadow: var(--glow-accent); }
 .step-line { width: 40px; height: 2px; background: var(--color-border); }
 .step-line.done { background: var(--color-success); }
 

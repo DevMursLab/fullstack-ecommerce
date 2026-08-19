@@ -289,7 +289,22 @@ function renderStep3() {
     const { slots } = await fetchAvailableSlots(STATE.booking.staffId, STATE.booking.date, duration);
 
     if (!slots.length) {
-      wrap.innerHTML = '<p>No available slots for this date. Please choose another day.</p>';
+      // Zero slots for a specific stylist usually means they're off/on leave that day
+      // (rather than a bug) — say so and offer a one-click way out instead of a dead end.
+      if (STATE.booking.staffId) {
+        const allStaff = STATE.staff.length ? STATE.staff : MOCK_STAFF;
+        const staffName = (allStaff.find(s => s._id === STATE.booking.staffId) || {}).name || 'This stylist';
+        wrap.innerHTML = `
+          <p>${staffName} isn't available on this date. Try another day, or let us match you with any available stylist.</p>
+          <button class="btn btn-outline" id="bk-use-any-staff" style="margin-top:.5rem;">Use Any Available Stylist</button>
+        `;
+        qs('#bk-use-any-staff', wrap).addEventListener('click', () => {
+          setStaff(null);
+          loadSlots();
+        });
+      } else {
+        wrap.innerHTML = '<p>No available slots for this date. Please choose another day.</p>';
+      }
       return;
     }
 

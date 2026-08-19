@@ -68,8 +68,52 @@ async function preloadData() {
     api.get('/reviews', BOOT_TIMEOUT_MS)
   ]);
 
+  const usedMockServices = !(svcRes && svcRes.success);
+  const usedMockStaff = !(staffRes && staffRes.success);
+
   setServices(svcRes && svcRes.success ? svcRes.services : (typeof MOCK_SERVICES !== 'undefined' ? MOCK_SERVICES : []));
   setStaffList(staffRes && staffRes.success ? staffRes.staff : (typeof MOCK_STAFF !== 'undefined' ? MOCK_STAFF : []));
   setProducts(prodRes && prodRes.success ? prodRes.products : (typeof MOCK_PRODUCTS !== 'undefined' ? MOCK_PRODUCTS : []));
   setReviews(reviewRes && reviewRes.success ? reviewRes.reviews : (typeof MOCK_REVIEWS !== 'undefined' ? MOCK_REVIEWS : []));
+
+  // Mock services/staff use placeholder ids (e.g. "svc1", "stf1") that the real backend
+  // doesn't recognize — if the boot fetch timed out on a cold backend and we fell back to
+  // mock data, those fake ids would later 404 against real endpoints like /appointments/slots.
+  // Track it so booking can swap in real data before it depends on staff/service ids.
+  STATE.usingMockServices = usedMockServices;
+  STATE.usingMockStaff = usedMockStaff;
+}
+
+// Retries fetching real services/staff (with a longer timeout for a cold backend) and
+// swaps them into STATE if the boot preload had fallen back to mock data. Safe to call
+// repeatedly — it's a no-op once real data is loaded.
+async function ensureLiveBookingData() {
+  if (!STATE.usingMockServices && !STATE.usingMockStaff) return true;
+  const RETRY_TIMEOUT_MS = 45000;
+  const [svcRes, staffRes] = await Promise.all([
+    STATE.usingMockServices ? api.get('/services', RETRY_TIMEOUT_MS) : Promise.resolve(null),
+    STATE.usingMockStaff ? api.get('/staff', RETRY_TIMEOUT_MS) : Promise.resolve(null)
+  ]);
+
+  if (svcRes && svcRes.success) {
+    setServices(svcRes.services);
+    STATE.usingMockServices = false;
+    // The user may have already selected services (in step 1) while mock data with fake
+    // ids like "svc1" was loaded — remap those selections onto the real records (matched
+    // by name, which mock and seeded data share) so the real ids flow into slot/booking calls.
+    STATE.booking.selectedServices = STATE.booking.selectedServices
+      .map(sel => STATE.services.find(s => s.name === sel.name) || sel);
+  }
+  if (staffRes && staffRes.success) {
+    setStaffList(staffRes.staff);
+    STATE.usingMockStaff = false;
+    if (STATE.booking.staffId) {
+      const prevMock = (typeof MOCK_STAFF !== 'undefined' ? MOCK_STAFF : []).find(s => s._id === STATE.booking.staffId);
+      if (prevMock) {
+        const realMatch = STATE.staff.find(s => s.name === prevMock.name);
+        STATE.booking.staffId = realMatch ? realMatch._id : null;
+      }
+    }
+  }
+  return !STATE.usingMockServices && !STATE.usingMockStaff;
 }

@@ -273,6 +273,18 @@ function renderStep3() {
     const wrap = qs('#bk-slots-wrap', el);
     if (!STATE.booking.date) { wrap.innerHTML = ''; return; }
     wrap.innerHTML = '<p>Loading available times…</p>';
+
+    // If the initial page load fell back to mock services/staff (e.g. the backend was
+    // still cold-starting), their ids (like "stf1") won't exist on the real server and
+    // this slots request would 404/fail silently. Make sure we're on live data first.
+    if (typeof ensureLiveBookingData === 'function') {
+      const gotLiveData = await ensureLiveBookingData();
+      if (!gotLiveData) {
+        wrap.innerHTML = '<p>Having trouble reaching the booking server. Please refresh the page and try again in a moment.</p>';
+        return;
+      }
+    }
+
     const duration = getBookingDuration();
     const { slots } = await fetchAvailableSlots(STATE.booking.staffId, STATE.booking.date, duration);
 

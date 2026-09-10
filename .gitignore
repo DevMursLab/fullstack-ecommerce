@@ -1,0 +1,28 @@
+# Dependencies
+node_modules/
+*/node_modules/
+
+# Environment / secrets
+.env
+.env.*
+!.env.example
+server/.env
+
+# Logs
+*.log
+server/server.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Local scratch / credentials notes
+test
+scratchpad/
+*.local
+
+# OS / editor
+.DS_Store
+Thumbs.db
+.idea/
+.vscode/
+*.swp

@@ -91,6 +91,30 @@ async function addLeave(req, res, next) {
   }
 }
 
+// @route DELETE /api/staff/:id/leave
+// Removes a leave day by its date (leave subdocs have no _id).
+async function removeLeave(req, res, next) {
+  try {
+    const staff = await Staff.findById(req.params.id);
+    if (!staff) {
+      return res.status(404).json({ success: false, message: 'Staff not found' });
+    }
+    const date = req.body.date || req.query.date;
+    if (!date) {
+      return res.status(400).json({ success: false, message: 'date is required' });
+    }
+    const before = staff.leaves.length;
+    staff.leaves = staff.leaves.filter((lv) => lv.date !== date);
+    if (staff.leaves.length === before) {
+      return res.status(404).json({ success: false, message: 'No leave found for that date' });
+    }
+    await staff.save();
+    res.status(200).json({ success: true, staff });
+  } catch (err) {
+    next(err);
+  }
+}
+
 module.exports = {
   getStaffList,
   getStaffProfile,
@@ -98,4 +122,5 @@ module.exports = {
   updateStaff,
   setSchedule,
   addLeave,
+  removeLeave,
 };

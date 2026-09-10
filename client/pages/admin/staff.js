@@ -120,21 +120,57 @@ async function renderAdminStaff() {
 
   function openLeaveForm(staff) {
     if (!staff) return;
+    const leaveChips = (leaves) => (leaves || []).length
+      ? leaves.map(l => {
+          const d = l.date || l;
+          return `<span class="badge badge-info lv-chip" data-date="${d}">${d}${l.reason ? ' — ' + escapeHtml(l.reason) : ''} <button type="button" class="lv-remove" data-date="${d}" aria-label="Remove leave" title="Remove">✕</button></span>`;
+        }).join(' ')
+      : '<span class="text-muted">No leave days yet.</span>';
+
     openModal(`
-      <div class="modal-header"><h2>Add Leave — ${staff.name}</h2><button class="modal-close" aria-label="Close">✕</button></div>
+      <div class="modal-header"><h2>Leave — ${staff.name}</h2><button class="modal-close" aria-label="Close">✕</button></div>
       <div class="modal-body">
         <div class="form-group"><label class="form-label">Date</label><input type="date" class="form-control" id="lv-date"></div>
         <div class="form-group"><label class="form-label">Reason (optional)</label><input type="text" class="form-control" id="lv-reason"></div>
-        <div>${(staff.leaves || []).map(l => `<span class="badge badge-info">${l.date || l}</span>`).join(' ')}</div>
+        <div class="form-group"><label class="form-label">Existing leave days</label><div id="lv-list">${leaveChips(staff.leaves)}</div></div>
       </div>
       <div class="modal-footer"><button class="btn btn-primary btn-block" id="lv-save-btn">Add Leave</button></div>
     `);
+
+    function bindRemoveButtons() {
+      qsa('#lv-list .lv-remove').forEach(btn => btn.addEventListener('click', async () => {
+        const date = btn.dataset.date;
+        btn.disabled = true;
+        const res = await api.del(`/staff/${staff._id}/leave?date=${encodeURIComponent(date)}`);
+        if (res && res.success) {
+          showToast('Leave removed', 'success');
+          staff.leaves = res.staff && res.staff.leaves ? res.staff.leaves : (staff.leaves || []).filter(l => (l.date || l) !== date);
+          qs('#lv-list').innerHTML = leaveChips(staff.leaves);
+          bindRemoveButtons();
+          loadStaff();
+        } else {
+          btn.disabled = false;
+          showToast((res && res.message) || 'Could not remove leave', 'error');
+        }
+      }));
+    }
+    bindRemoveButtons();
+
     qs('#lv-save-btn').addEventListener('click', async () => {
       const date = qs('#lv-date').value;
       if (!date) { showToast('Please choose a date', 'error'); return; }
       const res = await api.post(`/staff/${staff._id}/leave`, { date, reason: qs('#lv-reason').value });
-      if (res && res.success) { showToast('Leave added', 'success'); closeModal(); loadStaff(); }
-      else showToast((res && res.message) || 'Could not add leave', 'error');
+      if (res && res.success) {
+        showToast('Leave added', 'success');
+        staff.leaves = res.staff && res.staff.leaves ? res.staff.leaves : [...(staff.leaves || []), { date, reason: qs('#lv-reason').value }];
+        qs('#lv-date').value = '';
+        qs('#lv-reason').value = '';
+        qs('#lv-list').innerHTML = leaveChips(staff.leaves);
+        bindRemoveButtons();
+        loadStaff();
+      } else {
+        showToast((res && res.message) || 'Could not add leave', 'error');
+      }
     });
   }
 

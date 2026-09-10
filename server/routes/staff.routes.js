@@ -8,6 +8,7 @@ const {
   updateStaff,
   setSchedule,
   addLeave,
+  removeLeave,
 } = require('../controllers/staff.controller');
 
 router.get('/', getStaffList);
@@ -16,5 +17,6 @@ router.post('/', protect, adminOnly, createStaff);
 router.put('/:id', protect, adminOnly, updateStaff);
 router.put('/:id/schedule', protect, adminOnly, setSchedule);
 router.post('/:id/leave', protect, adminOnly, addLeave);
+router.delete('/:id/leave', protect, adminOnly, removeLeave);
 
 module.exports = router;

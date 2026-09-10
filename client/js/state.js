@@ -115,7 +115,7 @@ function addToCart(product, variant, qty = 1) {
   } else {
     STATE.cart.push({
       key, productId: product._id, name: product.name, image: (product.images && product.images[0]) || '',
-      variantName: variant.name, price: variant.price, qty, stock: variant.stock
+      variantName: variant.name, variantId: variant._id || null, price: variant.price, qty, stock: variant.stock
     });
   }
   persistState();

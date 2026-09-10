@@ -159,8 +159,9 @@ input[type=checkbox], input[type=radio] { width: 18px; height: 18px; accent-colo
 .status-confirmed { background: var(--color-info-bg); color: var(--status-confirmed); }
 .status-completed, .status-delivered { background: var(--color-success-bg); color: var(--status-completed); }
 .status-cancelled, .status-refunded { background: var(--color-error-bg); color: var(--status-cancelled); }
-.status-processing { background: #efeaf9; color: var(--status-processing); }
+.status-processing, .status-packed { background: #efeaf9; color: var(--status-processing); }
 .status-shipped { background: var(--color-info-bg); color: var(--status-shipped); }
+.status-no_show { background: var(--color-error-bg); color: var(--status-cancelled); }
 
 /* Modal */
 .modal-overlay {

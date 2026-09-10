@@ -15,10 +15,28 @@ async function fetchAvailableSlots(staffId, date, duration) {
   return { mode: staffId ? 'single' : 'any', slots: [] };
 }
 
+// A real MongoDB ObjectId is 24 hex chars. Mock/offline fallback data uses ids like
+// "svc1" / "stf1" — sending those to the backend triggers a CastError that surfaces
+// to the user as "Resource not found".
+function isRealObjectId(id) {
+  return typeof id === 'string' && /^[a-f0-9]{24}$/i.test(id);
+}
+
 async function submitBooking() {
   const b = STATE.booking;
   if (!b.selectedServices.length || !b.date || !b.time) {
     showToast('Please complete all booking steps first', 'error');
+    return { success: false };
+  }
+
+  // If any selected service still carries a mock id (the boot fetch fell back to offline
+  // data), pull the real records now and remap by name before we send anything.
+  const hasMockService = b.selectedServices.some(s => !isRealObjectId(s._id));
+  if (hasMockService && typeof ensureLiveBookingData === 'function') {
+    await ensureLiveBookingData();
+  }
+  if (b.selectedServices.some(s => !isRealObjectId(s._id))) {
+    showToast('Could not reach the booking server. Please refresh and try again.', 'error');
     return { success: false };
   }
 
@@ -56,6 +74,22 @@ async function submitBooking() {
   if (!body.staffId) {
     showToast('No stylist available for this booking. Please pick a different time.', 'error');
     return { success: false };
+  }
+
+  if (!isRealObjectId(body.staffId)) {
+    // A mock stylist id slipped through (offline data). Refresh slots for this date so we
+    // resolve a real stylist id, then retry once.
+    if (typeof fetchAvailableSlots === 'function') {
+      await fetchAvailableSlots(STATE.booking.staffId, b.date, getBookingDuration());
+      const freshSlot = STATE.availableSlots.find(s => s.time === b.time);
+      if (freshSlot && freshSlot.availableStaff && isRealObjectId(freshSlot.availableStaff[0])) {
+        body.staffId = freshSlot.availableStaff[0];
+      }
+    }
+    if (!isRealObjectId(body.staffId)) {
+      showToast('Could not reach the booking server. Please refresh and try again.', 'error');
+      return { success: false };
+    }
   }
 
   const data = await api.post('/appointments', body);

@@ -91,6 +91,15 @@ function renderStep1() {
   const allServices = STATE.services.length ? STATE.services : MOCK_SERVICES;
   const categories = ['All', 'Hair', 'Skin', 'Nails', 'Massage', 'Package'];
 
+  // If the boot fetch fell back to offline data, start pulling the real
+  // services/staff now (backend may be cold-starting) so they're ready by the
+  // time the user reaches the date/time step — and re-render the list when they land.
+  if ((STATE.usingMockServices || STATE.usingMockStaff) && typeof ensureLiveBookingData === 'function') {
+    ensureLiveBookingData().then(ok => {
+      if (ok && STATE.booking.step === 1 && qs('#bk-service-list')) renderStep1();
+    });
+  }
+
   el.innerHTML = `
     <h2>Choose Your Services</h2>
     <div class="tabs" id="bk-tabs">
